@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Redirect, withRouter } from "react-router-dom";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -22,10 +23,12 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
-import { logger } from "handlebars";
-import { loginAPI } from "../../utils/api";
 
-import { Redirect } from "react-router-dom";
+import { logger } from "handlebars";
+
+import { loginAPI } from "../../utils/api";
+import { login } from "../../utils/business";
+import history from "../../history"
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -61,17 +64,7 @@ class LoginPage extends React.Component {
 
   handleSubmit = async () => {
     try {
-      const data = await loginAPI(this.state.username, this.state.password);
-      const token = data.token;
-      const user = data.user;
-      const isStaff = user.isStaff;
-      const { username, id, name} = user
-      localStorage.setItem('token', token);
-      localStorage.setItem('isStaff', isStaff ? 'true' : 'false');
-      localStorage.setItem('username', username);
-      localStorage.setItem('id', id);
-      localStorage.setItem('name', name);
-      localStorage.setItem('isLogin', 'true');
+      await login(this.state.username, this.state.password)
       this.setState({
         isLogin: 'true'
       })
@@ -83,7 +76,9 @@ class LoginPage extends React.Component {
     const { classes } = this.props;
     const isLogin = this.state.isLogin
     if (isLogin === 'true') {
-      return (<Redirect from="/auth/login-page" to="/admin/dashboard" />)
+      this.props.history.replace("/admin/dashboard")
+      // eslint-disable-next-line no-console
+      console.log('123')
     }
     return (
       <div className={classes.container}>
@@ -185,7 +180,8 @@ class LoginPage extends React.Component {
 }
 
 LoginPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(loginPageStyle)(LoginPage);
+export default withRouter(withStyles(loginPageStyle)(LoginPage));

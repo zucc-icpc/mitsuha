@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
+import { Redirect } from "react-router-dom";
 // import { Manager, Target, Popper } from "react-popper";
 
 // @material-ui/core components
@@ -27,7 +28,8 @@ import adminNavbarLinksStyle from "assets/jss/material-dashboard-pro-react/compo
 
 class HeaderLinks extends React.Component {
   state = {
-    open: false
+    open: false,
+    isLogout: false,
   };
   handleClick = () => {
     this.setState({ open: !this.state.open });
@@ -35,9 +37,18 @@ class HeaderLinks extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
   };
+  handleLogout = () => {
+    localStorage.clear()
+    this.setState({
+      isLogout: true
+    })
+  }
   render() {
     const { classes, rtlActive } = this.props;
-    const { open } = this.state;
+    const { open, isLogout } = this.state;
+    if (isLogout) {
+      return (<Redirect from="/admin/dashboard" to="/auth" />)
+    }
     const searchButton =
       classes.top +
       " " +
@@ -59,7 +70,7 @@ class HeaderLinks extends React.Component {
     });
     return (
       <div className={wrapper}>
-        <CustomInput
+        {/* <CustomInput
           rtlActive={rtlActive}
           formControlProps={{
             className: classes.top + " " + classes.search
@@ -82,8 +93,8 @@ class HeaderLinks extends React.Component {
           <Search
             className={classes.headerLinksSvg + " " + classes.searchIcon}
           />
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           color="transparent"
           simple
           aria-label="Dashboard"
@@ -107,8 +118,8 @@ class HeaderLinks extends React.Component {
               {rtlActive ? "لوحة القيادة" : "Dashboard"}
             </span>
           </Hidden>
-        </Button>
-        <div className={managerClasses}>
+        </Button> */}
+        {/* <div className={managerClasses}>
           <Button
             color="transparent"
             justIcon
@@ -203,17 +214,20 @@ class HeaderLinks extends React.Component {
               </Grow>
             )}
           </Popper>
-        </div>
+        </div> */}
         <Button
-          color="transparent"
+          // color="transparent"
+          size="sm"
           aria-label="Person"
-          justIcon
+          // justIcon
           className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
           muiClasses={{
             label: rtlActive ? classes.labelRTL : ""
           }}
+          onClick={this.handleLogout}
         >
-          <Person
+          登出
+          {/* <Person
             className={
               classes.headerLinksSvg +
               " " +
@@ -221,12 +235,12 @@ class HeaderLinks extends React.Component {
                 ? classes.links + " " + classes.linksRTL
                 : classes.links)
             }
-          />
-          <Hidden mdUp implementation="css">
+          /> */}
+          {/* <Hidden mdUp implementation="css">
             <span className={classes.linkText}>
               {rtlActive ? "الملف الشخصي" : "Profile"}
             </span>
-          </Hidden>
+          </Hidden> */}
         </Button>
       </div>
     );

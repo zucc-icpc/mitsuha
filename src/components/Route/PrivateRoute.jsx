@@ -8,15 +8,19 @@ import {
 import { isNil } from "lodash"
 
 function isLogin() {
-  const token = localStorage.getItem('token')
-  const username = localStorage.getItem('username')
-  const id = localStorage.getItem('id')
-  const name = localStorage.getItem('name')
-  const isStaff = localStorage.getItem('isStaff')
-  if (isNil(token) || isNil(username) || isNil(name) || isNil(id) || isNil(isStaff)) {
-    return false
-  }
-  return true
+  // const token = localStorage.getItem('token')
+  // const username = localStorage.getItem('username')
+  // const id = localStorage.getItem('id')
+  // const name = localStorage.getItem('name')
+  // const isStaff = localStorage.getItem('isStaff')
+  // if (isNil(token) || isNil(username) || isNil(name) || isNil(id) || isNil(isStaff)) {
+  //   return false
+  // }
+  // return true
+  const isLogin = localStorage.getItem('isLogin')
+  // eslint-disable-next-line no-console
+  console.log(isLogin)
+  return isLogin === 'true'
 }
 
 function PrivateRoute({ component: Component, ...rest }) {

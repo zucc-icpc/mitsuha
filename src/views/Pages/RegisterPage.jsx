@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Redirect, withRouter } from "react-router-dom";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -28,11 +29,21 @@ import CardBody from "components/Card/CardBody.jsx";
 
 import registerPageStyle from "assets/jss/material-dashboard-pro-react/views/registerPageStyle";
 
+import { isNil } from "lodash";
+import { registerAPI, loginAPI } from "../../utils/api";
+import { logger } from "handlebars";
+import { login } from "../../utils/business";
+
 class RegisterPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: []
+      checked: [],
+      username: "",
+      password: "",
+      repeatedPassword: "",
+      email: "",
+      isRegisterSuccess: false,
     };
     this.handleToggle = this.handleToggle.bind(this);
   }
@@ -51,8 +62,50 @@ class RegisterPage extends React.Component {
       checked: newChecked
     });
   }
+
+  handleOnchange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+  }
+
+  isEmptyString = (str) => {
+    return isNil(str) || str.length === 0
+  }
+
+  validateForm = () => {
+    const {username, email, password, repeatedPassword} = this.state
+    if (this.isEmptyString(username) || 
+        this.isEmptyString(email) || 
+        this.isEmptyString(password) || 
+        this.isEmptyString(repeatedPassword)) {
+      return false;
+    }
+    if (password !== repeatedPassword) {
+      return false;
+    }
+    return true;
+  }
+
+  handleSubmit = async () => {
+    try {
+      const {username, password, email} = this.state
+      await registerAPI(username, password, email);
+      await login(this.state.username, this.state.password)
+      this.setState({
+        isRegisterSuccess: true
+      })
+    } catch (err) {
+      logger.log(err.msg)
+    }
+  }
+
   render() {
     const { classes } = this.props;
+    const isRegisterSuccess = this.state.isRegisterSuccess;
+    if (isRegisterSuccess) {
+      this.props.history.replace("/admin/dashboard")
+    }
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
@@ -68,12 +121,12 @@ class RegisterPage extends React.Component {
                       icon={Timeline}
                       iconColor="rose"
                     />
-                    <InfoArea
+                    {/* <InfoArea
                       title="Fully Coded in HTML5"
                       description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
                       icon={Code}
                       iconColor="primary"
-                    />
+                    /> */}
                     <InfoArea
                       title="Built Audience"
                       description="There is also a Fully Customizable CMS Admin Dashboard for this product."
@@ -82,7 +135,7 @@ class RegisterPage extends React.Component {
                     />
                   </GridItem>
                   <GridItem xs={12} sm={8} md={5}>
-                    <div className={classes.center}>
+                    {/* <div className={classes.center}>
                       <Button justIcon round color="twitter">
                         <i className="fab fa-twitter" />
                       </Button>
@@ -96,9 +149,10 @@ class RegisterPage extends React.Component {
                       </Button>
                       {` `}
                       <h4 className={classes.socialTitle}>or be classical</h4>
-                    </div>
+                    </div> */}
                     <form className={classes.form}>
                       <CustomInput
+                        id="username"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
@@ -112,10 +166,13 @@ class RegisterPage extends React.Component {
                               <Face className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
-                          placeholder: "First Name..."
+                          placeholder: "用户名...",
+                          value: this.state.username,
+                          onChange: this.handleOnchange,
                         }}
                       />
                       <CustomInput
+                        id="email"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
@@ -129,10 +186,13 @@ class RegisterPage extends React.Component {
                               <Email className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
-                          placeholder: "Email..."
+                          placeholder: "邮箱...",
+                          value: this.state.email,
+                          onChange: this.handleOnchange,
                         }}
                       />
                       <CustomInput
+                        id="password"
                         formControlProps={{
                           fullWidth: true,
                           className: classes.customFormControlClasses
@@ -148,7 +208,31 @@ class RegisterPage extends React.Component {
                               </Icon>
                             </InputAdornment>
                           ),
-                          placeholder: "Password..."
+                          placeholder: "密码...",
+                          value: this.state.password,
+                          onChange: this.handleOnchange,
+                        }}
+                      />
+                      <CustomInput
+                        id="repeatedPassword"
+                        formControlProps={{
+                          fullWidth: true,
+                          className: classes.customFormControlClasses
+                        }}
+                        inputProps={{
+                          startAdornment: (
+                            <InputAdornment
+                              position="start"
+                              className={classes.inputAdornment}
+                            >
+                              <Icon className={classes.inputAdornmentIcon}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                          placeholder: "重复密码...",
+                          value: this.state.repeatedPassword,
+                          onChange: this.handleOnchange,
                         }}
                       />
                       <FormControlLabel
@@ -178,7 +262,7 @@ class RegisterPage extends React.Component {
                         }
                       />
                       <div className={classes.center}>
-                        <Button round color="primary">
+                        <Button round color="primary" disabled={!this.validateForm()} onClick={this.handleSubmit}>
                           Get started
                         </Button>
                       </div>
@@ -195,7 +279,8 @@ class RegisterPage extends React.Component {
 }
 
 RegisterPage.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
-export default withStyles(registerPageStyle)(RegisterPage);
+export default withRouter(withStyles(registerPageStyle)(RegisterPage));

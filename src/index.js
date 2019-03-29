@@ -9,11 +9,10 @@ import AdminLayout from "layouts/Admin.jsx";
 
 import "assets/scss/material-dashboard-pro-react.scss?v=1.5.0";
 import PrivateRoute from "./components/Route/PrivateRoute";
-
-const hist = createBrowserHistory();
+import history from './history'
 
 ReactDOM.render(
-  <Router history={hist}>
+  <Router history={history}>
     <Switch>
       <Route path="/rtl" component={RtlLayout} />
       <Route path="/auth" component={AuthLayout} />

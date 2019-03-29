@@ -14,3 +14,11 @@ export async function loginAPI(username, password) {
   }
   return res.data
 }
+
+export async function registerAPI(username, password, email) {
+  const res = await axios.post('api/user/', {username, password, email})
+  if (res.status !== 200) {
+    throw new Error('注册失败')
+  }
+  return res.data
+}
