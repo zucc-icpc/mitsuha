@@ -16,6 +16,8 @@ module.exports = {
   // extends: ["eslint:recommended", "plugin:prettier/recommended"],
   extends: ["eslint:recommended",  "plugin:react/recommended"],
   rules: {
-    "react/jsx-uses-vars": 2
+    "react/jsx-uses-vars": 2,
+    "no-unused-vars": "off",
+    "no-unescaped-entities": "off",
   }
 };

@@ -8,7 +8,7 @@ import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
-import Email from "@material-ui/icons/Email";
+// import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 
 // core components
@@ -22,13 +22,20 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
+import { logger } from "handlebars";
+import { loginAPI } from "../../utils/api";
+
+import { Redirect } from "react-router-dom";
 
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      username: "",
+      password: "",
+      isLogin: localStorage.getItem('isLogin')
     };
   }
   componentDidMount() {
@@ -44,8 +51,40 @@ class LoginPage extends React.Component {
     clearTimeout(this.timeOutFunction);
     this.timeOutFunction = null;
   }
+
+  
+  handleOnchange = (e) => {
+    this.setState({
+      [e.target.id]: e.target.value
+    })
+  }
+
+  handleSubmit = async () => {
+    try {
+      const data = await loginAPI(this.state.username, this.state.password);
+      const token = data.token;
+      const user = data.user;
+      const isStaff = user.isStaff;
+      const { username, id, name} = user
+      localStorage.setItem('token', token);
+      localStorage.setItem('isStaff', isStaff ? 'true' : 'false');
+      localStorage.setItem('username', username);
+      localStorage.setItem('id', id);
+      localStorage.setItem('name', name);
+      localStorage.setItem('isLogin', 'true');
+      this.setState({
+        isLogin: 'true'
+      })
+    } catch(err) {
+      logger.log(err.msg)
+    }
+  }
   render() {
     const { classes } = this.props;
+    const isLogin = this.state.isLogin
+    if (isLogin === 'true') {
+      return (<Redirect from="/auth/login-page" to="/admin/dashboard" />)
+    }
     return (
       <div className={classes.container}>
         <GridContainer justify="center">
@@ -78,8 +117,8 @@ class LoginPage extends React.Component {
                 </CardHeader>
                 <CardBody>
                   <CustomInput
-                    labelText="First Name.."
-                    id="firstname"
+                    labelText="用户名.."
+                    id="username"
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -88,10 +127,12 @@ class LoginPage extends React.Component {
                         <InputAdornment position="end">
                           <Face className={classes.inputAdornmentIcon} />
                         </InputAdornment>
-                      )
+                      ),
+                      value: this.state.username,
+                      onChange: this.handleOnchange,
                     }}
                   />
-                  <CustomInput
+                  {/* <CustomInput
                     labelText="Email..."
                     id="email"
                     formControlProps={{
@@ -104,9 +145,9 @@ class LoginPage extends React.Component {
                         </InputAdornment>
                       )
                     }}
-                  />
+                  /> */}
                   <CustomInput
-                    labelText="Password"
+                    labelText="密码.."
                     id="password"
                     formControlProps={{
                       fullWidth: true
@@ -118,13 +159,20 @@ class LoginPage extends React.Component {
                             lock_outline
                           </Icon>
                         </InputAdornment>
-                      )
+                      ),
+                      value: this.state.password,
+                      onChange: this.handleOnchange,
                     }}
                   />
                 </CardBody>
                 <CardFooter className={classes.justifyContentCenter}>
-                  <Button color="rose" simple size="lg" block>
-                    Let's Go
+                  <Button 
+                    color="rose"
+                    simple size="lg"
+                    block
+                    onClick={this.handleSubmit}
+                  >
+                    {`Let's Go`}
                   </Button>
                 </CardFooter>
               </Card>

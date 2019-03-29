@@ -10,8 +10,10 @@ import { isNil } from "lodash"
 function isLogin() {
   const token = localStorage.getItem('token')
   const username = localStorage.getItem('username')
+  const id = localStorage.getItem('id')
   const name = localStorage.getItem('name')
-  if (isNil(token) || isNil(username) || isNil(name)) {
+  const isStaff = localStorage.getItem('isStaff')
+  if (isNil(token) || isNil(username) || isNil(name) || isNil(id) || isNil(isStaff)) {
     return false
   }
   return true
