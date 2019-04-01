@@ -26,9 +26,8 @@ import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginP
 
 import { logger } from "handlebars";
 
-import { loginAPI } from "../../utils/api";
 import { login } from "../../utils/business";
-import history from "../../history"
+
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -56,7 +55,7 @@ class LoginPage extends React.Component {
   }
 
   
-  handleOnchange = (e) => {
+  handleOnChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
@@ -124,7 +123,7 @@ class LoginPage extends React.Component {
                         </InputAdornment>
                       ),
                       value: this.state.username,
-                      onChange: this.handleOnchange,
+                      onChange: this.handleOnChange,
                     }}
                   />
                   {/* <CustomInput
@@ -156,7 +155,8 @@ class LoginPage extends React.Component {
                         </InputAdornment>
                       ),
                       value: this.state.password,
-                      onChange: this.handleOnchange,
+                      onChange: this.handleOnChange,
+                      type: "password",
                     }}
                   />
                 </CardBody>

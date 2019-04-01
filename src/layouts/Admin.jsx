@@ -21,6 +21,8 @@ import appStyle from "assets/jss/material-dashboard-pro-react/layouts/adminStyle
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo-white.svg";
+import SolutionDetail from "../views/Solution/SolutionDetail";
+import SolutionCreate from "../views/Solution/SolutionCreate";
 
 var ps;
 
@@ -110,6 +112,7 @@ class Dashboard extends React.Component {
       if (prop.layout === "/admin") {
         return (
           <Route
+            exact
             path={prop.layout + prop.path}
             component={prop.component}
             key={key}
@@ -165,6 +168,8 @@ class Dashboard extends React.Component {
             <div className={classes.content}>
               <div className={classes.container}>
                 <Switch>{this.getRoutes(routes)}</Switch>
+                <Route exact path="/admin/solution/:id/" component={SolutionDetail}></Route>
+                <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
               </div>
             </div>
           ) : (
@@ -172,6 +177,7 @@ class Dashboard extends React.Component {
               <Switch>{this.getRoutes(routes)}</Switch>
             </div>
           )}
+          
           {this.getRoute() ? <Footer fluid /> : null}
           <FixedPlugin
             handleImageClick={this.handleImageClick}

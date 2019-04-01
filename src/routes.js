@@ -38,7 +38,17 @@ import Place from "@material-ui/icons/Place";
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 
+import Solution from "views/Solution/Solution.jsx";
+
 var dashRoutes = [
+  {
+    path: "/solution",
+    name: "题解",
+    rtlName: "题解",
+    icon: DashboardIcon,
+    component: Solution,
+    layout: "/admin"
+  },
   {
     path: "/dashboard",
     name: "Dashboard",

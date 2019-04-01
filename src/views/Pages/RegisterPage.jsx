@@ -63,7 +63,7 @@ class RegisterPage extends React.Component {
     });
   }
 
-  handleOnchange = (e) => {
+  handleOnChange = (e) => {
     this.setState({
       [e.target.id]: e.target.value
     })
@@ -168,7 +168,7 @@ class RegisterPage extends React.Component {
                           ),
                           placeholder: "用户名...",
                           value: this.state.username,
-                          onChange: this.handleOnchange,
+                          onChange: this.handleOnChange,
                         }}
                       />
                       <CustomInput
@@ -188,7 +188,7 @@ class RegisterPage extends React.Component {
                           ),
                           placeholder: "邮箱...",
                           value: this.state.email,
-                          onChange: this.handleOnchange,
+                          onChange: this.handleOnChange,
                         }}
                       />
                       <CustomInput
@@ -210,7 +210,8 @@ class RegisterPage extends React.Component {
                           ),
                           placeholder: "密码...",
                           value: this.state.password,
-                          onChange: this.handleOnchange,
+                          onChange: this.handleOnChange,
+                          type: "password",
                         }}
                       />
                       <CustomInput
@@ -232,7 +233,8 @@ class RegisterPage extends React.Component {
                           ),
                           placeholder: "重复密码...",
                           value: this.state.repeatedPassword,
-                          onChange: this.handleOnchange,
+                          onChange: this.handleOnChange,
+                          type: "password",
                         }}
                       />
                       <FormControlLabel
