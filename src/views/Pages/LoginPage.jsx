@@ -24,10 +24,8 @@ import CardFooter from "components/Card/CardFooter.jsx";
 
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
-import { logger } from "handlebars";
-
 import { login } from "../../utils/business";
-
+import toastr from "toastr";
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -68,7 +66,7 @@ class LoginPage extends React.Component {
         isLogin: 'true'
       })
     } catch(err) {
-      logger.log(err.msg)
+      console.log(err.message)
     }
   }
   render() {
@@ -182,6 +180,8 @@ class LoginPage extends React.Component {
 LoginPage.propTypes = {
   classes: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  // enqueueSnackbar: PropTypes.func.isRequired,
 };
 
-export default withRouter(withStyles(loginPageStyle)(LoginPage));
+const componentWithStyle = withStyles(loginPageStyle)(LoginPage)
+export default withRouter(componentWithStyle);

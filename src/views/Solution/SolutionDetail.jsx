@@ -43,7 +43,6 @@ const style = {
 class SolutionDetail extends React.Component {
 
   componentDidMount = async () => {
-    console.log(this.props.match);
     const data = await solutionDetailAPI(this.props.match.params.id);
     this.setState({
       content: data["content"],
