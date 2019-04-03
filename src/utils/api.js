@@ -72,7 +72,7 @@ export async function registerAPI(username, password, email) {
 }
 
 export async function solutionListAPI() {
-  const res = await axios.get('api/solution/');
+  const res = await axios.get('api/solutions/');
   if (res.status !== 200) {
     throw new Error('获取题解列表失败');
   }
@@ -80,7 +80,7 @@ export async function solutionListAPI() {
 }
 
 export async function solutionDetailAPI(id) {
-  const res = await axios.get(`api/solution/${id}/`);
+  const res = await axios.get(`api/solutions/${id}/`);
   if (res.status !== 200) {
     throw new Error(`获取题解${id}失败`);
   }
@@ -94,9 +94,17 @@ export async function solutionCreateAPI(title, oj, pid, content) {
     pid,
     content,
   };
-  const res = await axios.post('api/solution/', data);
+  const res = await axios.post('api/solutions/', data);
   if (res.status !== 201) {
     throw new Error(`创建题解失败`);
+  }
+  return res.data;
+}
+
+export async function templateListAPI(userId) {
+  const res = await axios.get(`api/templates/?owner=${userId}`);
+  if (res.status !== 200) {
+    throw new Error(`获取模版列表失败`);
   }
   return res.data;
 }
