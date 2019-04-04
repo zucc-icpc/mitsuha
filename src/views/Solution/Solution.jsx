@@ -24,7 +24,7 @@ import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 
 import { solutionListAPI } from "../../utils/api"
 
-import { Route, Switch, Redirect, Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import SolutionDetail from "./SolutionDetail";
 

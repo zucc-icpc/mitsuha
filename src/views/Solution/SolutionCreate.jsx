@@ -38,38 +38,16 @@ class SolutionCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      checked: [24, 22],
-      selectedValue: null,
-      selectedEnabled: "b",
       content: "",
+      contentState: "",
       title: "",
+      titleState: "",
       pid: "",
+      pidState: "",
       oj: "",
+      ojState: "",
       stackedit: new Stackedit(),
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleChangeEnabled = this.handleChangeEnabled.bind(this);
-  }
-  handleChange(event) {
-    this.setState({ selectedValue: event.target.value });
-  }
-  handleChangeEnabled(event) {
-    this.setState({ selectedEnabled: event.target.value });
-  }
-  handleToggle(value) {
-    const { checked } = this.state;
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    this.setState({
-      checked: newChecked
-    });
   }
 
   handleOpenMarkdown = () => {
@@ -81,37 +59,83 @@ class SolutionCreate extends React.Component {
     });
   }
 
-  handleOnChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
-  }
+  // handleOnChange = (e) => {
+  //   this.setState({
+  //     [e.target.id]: e.target.value
+  //   })
+  // }
 
-  isEmptyString = (str) => {
-    return isNil(str) || str.length === 0
-  }
+  // isEmptyString = (str) => {
+  //   return isNil(str) || str.length === 0
+  // }
 
-  validateForm = () => {
-    const {title, oj, pid, content} = this.state
-    if (this.isEmptyString(title) || 
-        this.isEmptyString(oj) || 
-        this.isEmptyString(pid) || 
-        this.isEmptyString(content)) {
-      return false;
+  verifyLength(value, length) {
+    if (value.length >= length) {
+      return true;
     }
-    return true;
+    return false;
   }
+
+  change(event, stateName, type, stateNameEqualTo) {
+    switch (type) {
+      case "length":
+        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
+          this.setState({ [stateName + "State"]: "success" });
+        } else {
+          this.setState({ [stateName + "State"]: "error" });
+        }
+        break;
+      default:
+        break;
+    }
+    this.setState({ [stateName]: event.target.value });
+  }
+  isValidated() {
+    const fields = ['content', 'pid', 'title', 'oj']
+    let successCount = 0;
+    fields.forEach(item => {
+      const itemState = item + 'State'
+      if (this.state[itemState] === 'success') {
+        successCount ++;
+      }
+    })
+    if (successCount === fields.length) {
+      return true;
+    } else {
+      fields.forEach(item => {
+        const itemState = item + 'State'
+        if (this.state[itemState] !== 'success') {
+          this.setState({ [itemState]: "error" });
+        }
+      })
+    }
+    return false;
+  }
+  
+  // validateForm = () => {
+  //   const {title, oj, pid, content} = this.state
+  //   if (this.isEmptyString(title) || 
+  //       this.isEmptyString(oj) || 
+  //       this.isEmptyString(pid) || 
+  //       this.isEmptyString(content)) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 
   handleFileChange = (file) => {
     this.setState({
-      content: file.content.text
+      content: file.content.text,
+      contentState: !isNil(file.content.text) && file.content.text.length > 0 ? 'success' : 'error'
     })
   }
 
   handleSubmit = async () => {
-    const { title, oj, pid, content } = this.state
-    await solutionCreateAPI(title, oj, pid, content);
-    this.props.history.push('/admin/solution/');
+    if (this.isValidated()) {
+      const { title, oj, pid, content } = this.state
+      await solutionCreateAPI(title, oj, pid, content);
+      this.props.history.push('/admin/solution/');
+    }
   }
 
   render() {
@@ -131,46 +155,70 @@ class SolutionCreate extends React.Component {
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
                     id="title"
-                    labelText="标题"
+                    labelText={
+                      <span>
+                        标题 <small>(必填)</small>
+                      </span>
+                    }
+                    success={this.state.titleState === "success"}
+                    error={this.state.titleState === "error"}
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       value: this.state.title,
-                      onChange: this.handleOnChange,
+                      onChange: event => this.change(event, "title", "length", 1),
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     id="oj"
-                    labelText="OJ"
+                    labelText={
+                      <span>
+                        OJ <small>(必填)</small>
+                      </span>
+                    }
+                    success={this.state.ojState === "success"}
+                    error={this.state.ojState === "error"}
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       value: this.state.oj,
-                      onChange: this.handleOnChange,
+                      onChange: event => this.change(event, "oj", "length", 1),
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={6}>
                   <CustomInput
                     id="pid"
-                    labelText="题目ID"
+                    labelText={
+                      <span>
+                        题目ID <small>(必填)</small>
+                      </span>
+                    }
+                    success={this.state.pidState === "success"}
+                    error={this.state.pidState === "error"}
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
                       value: this.state.pid,
-                      onChange: this.handleOnChange,
+                      onChange: event => this.change(event, "pid", "length", 1),
                     }}
                   />
                 </GridItem>
                 <GridItem xs={12} sm={12} md={12}>
                   <CustomInput
-                    labelText="内容"
+                    labelText={
+                      <span>
+                        内容 <small>(必填)</small>
+                      </span>
+                    }
                     id="content"
+                    success={this.state.contentState === "success"}
+                    error={this.state.contentState === "error"}
                     formControlProps={{
                       fullWidth: true
                     }}
@@ -178,7 +226,7 @@ class SolutionCreate extends React.Component {
                       multiline: true,
                       rows: 5,
                       value: this.state.content,
-                      onChange: this.handleOnChange,
+                      onChange: event => this.change(event, "content", "length", 1),
                     }}
                   />
                   <Button
@@ -191,7 +239,6 @@ class SolutionCreate extends React.Component {
                 <GridItem>
                   <Button
                     color="primary"
-                    disabled={!this.validateForm()}
                     onClick={this.handleSubmit}
                   >
                     提交
