@@ -39,7 +39,7 @@ import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
 
 import Solution from "views/Solution/Solution.jsx";
-import Template from "./views/Template/Template.jsx";
+import TemplateList from "./views/Template/TemplateList.jsx";
 
 var dashRoutes = [
   {
@@ -55,7 +55,7 @@ var dashRoutes = [
     name: "模版",
     rtlName: "模版",
     icon: GridOn,
-    component: Template,
+    component: TemplateList,
     layout: "/admin"
   },
   {

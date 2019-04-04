@@ -17,6 +17,11 @@ module.exports = {
   extends: ["eslint:recommended",  "plugin:react/recommended"],
   rules: {
     "react/jsx-uses-vars": 2,
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "off",
+    "react/no-string-refs": "off",
+    "react/jsx-key": "off",
+    "no-console": "off",
     "no-unused-vars": "off",
     "no-unescaped-entities": "off",
   }

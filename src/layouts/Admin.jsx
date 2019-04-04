@@ -23,6 +23,8 @@ import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/logo-white.svg";
 import SolutionDetail from "../views/Solution/SolutionDetail";
 import SolutionCreate from "../views/Solution/SolutionCreate";
+import TemplateCreate from "../views/Template/TemplateCreate";
+import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
 
 var ps;
 
@@ -170,6 +172,8 @@ class Dashboard extends React.Component {
                 <Switch>{this.getRoutes(routes)}</Switch>
                 <Route exact path="/admin/solution/:id/" component={SolutionDetail}></Route>
                 <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
+                <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>
+                <Route exact path="/admin/create-template/" component={TemplateCreate}></Route>
               </div>
             </div>
           ) : (

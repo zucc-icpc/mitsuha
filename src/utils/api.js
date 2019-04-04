@@ -108,3 +108,24 @@ export async function templateListAPI(userId) {
   }
   return res.data;
 }
+
+export async function templateDetailAPI(id) {
+  const res = await axios.get(`api/templates/${id}/`);
+  if (res.status !== 200) {
+    throw new Error(`获取模版失败`);
+  }
+  return res.data;
+}
+
+// export async function templatePDFAPI(pdf) {
+//   const res = await axios.get({
+//     url: pdf,
+//     responseType: 'blob'
+//   })
+//   const url = window.URL.createObjectURL(new Blob([res.data]))
+//   const link = document.createElement('a');
+//   link.href = url;
+//   // link.setAttribute('download', 'file.pdf');
+//   document.body.appendChild(link);
+//   link.click();
+// }
