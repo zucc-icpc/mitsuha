@@ -48,22 +48,20 @@ class Step1 extends React.Component {
     return false;
   }
   isValidated() {
-
-    // if (
-    //   this.state.titleState === "success" &&
-    //   (this.state.introState === "success" || this.state.introState === "")
-    // ) {
-    //   return true;
-    // } else {
-    //   if (this.state.titleState !== "success") {
-    //     this.setState({ titleState: "error" });
-    //   }
-    //   if (this.state.introState !== "success") {
-    //     this.setState({ introState: "" });
-    //   }
-    // }
-    // return false;
-    return true;
+    if (
+      this.state.titleState === "success" &&
+      (this.state.introState === "success" || this.state.introState === "")
+    ) {
+      return true;
+    } else {
+      if (this.state.titleState !== "success") {
+        this.setState({ titleState: "error" });
+      }
+      if (this.state.introState !== "success") {
+        this.setState({ introState: "" });
+      }
+    }
+    return false;
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {

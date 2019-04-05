@@ -117,15 +117,18 @@ export async function templateDetailAPI(id) {
   return res.data;
 }
 
-// export async function templatePDFAPI(pdf) {
-//   const res = await axios.get({
-//     url: pdf,
-//     responseType: 'blob'
-//   })
-//   const url = window.URL.createObjectURL(new Blob([res.data]))
-//   const link = document.createElement('a');
-//   link.href = url;
-//   // link.setAttribute('download', 'file.pdf');
-//   document.body.appendChild(link);
-//   link.click();
-// }
+export async function templateCreateAPI(title, intro, type, file) {
+  const bodyFormData = new FormData();
+  bodyFormData.set('title', title)
+  bodyFormData.set('intro', intro)
+  bodyFormData.set('type', type)
+  bodyFormData.append(type, file)
+  console.log(bodyFormData)
+  const res = await axios.post(`api/templates/`, bodyFormData, {
+    config: { headers: {'Content-Type': 'multipart/form-data' }}
+  })
+  if (res.status !== 201) {
+    throw new Error(`创建模版失败`);
+  }
+  return res.data
+}

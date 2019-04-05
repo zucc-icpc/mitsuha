@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 // core components
 import Wizard from "components/Wizard/Wizard.jsx";
@@ -8,9 +9,19 @@ import GridItem from "components/Grid/GridItem.jsx";
 import Step1 from "./TemplateCreateSteps/Step1.jsx"
 import Step2 from "./TemplateCreateSteps/Step2.jsx"
 import Step3 from "./TemplateCreateSteps/Step3.jsx"
-
+import { templateCreateAPI } from "../../utils/api.js";
+import axios from "axios";
 
 class TemplateCreate extends React.Component {
+  handleSubmit = async (e) => {
+    console.log(e)
+    const { title, intro } = e.step1
+    const type = e.step2.selected
+    const file = e.step2.files[0]
+    await templateCreateAPI(title, intro, type, file)
+    this.props.history.push('/admin/template')
+  }
+
   render() {
     return (
       <GridContainer justify="center">
@@ -20,12 +31,10 @@ class TemplateCreate extends React.Component {
             steps={[
               { stepName: "基本信息", stepComponent: Step1, stepId: "step1" },
               { stepName: "模版类型", stepComponent: Step2, stepId: "step2" },
-              { stepName: "上传文件", stepComponent: Step3, stepId: "step3" },
-              // { stepName: "上传模版", stepComponent: Step3, stepId: "step3" },
             ]}
             title="创建你的模版"
             subtitle="上传本地已有的PDF或WORD文件"
-            finishButtonClick={e => console.log(e)}
+            finishButtonClick={e => this.handleSubmit(e)}
           />
         </GridItem>
       </GridContainer>
@@ -33,4 +42,5 @@ class TemplateCreate extends React.Component {
   }
 }
 
-export default TemplateCreate;
+export default withRouter(TemplateCreate);
+

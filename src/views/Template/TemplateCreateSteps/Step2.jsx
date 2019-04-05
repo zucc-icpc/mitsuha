@@ -79,8 +79,8 @@ class Step2 extends React.Component {
     })
   }
   isValidated() {
-    // return !isNil(this.state.selected)
-    return true;
+    return !isNil(this.state.selected) && this.state.files.length > 0
+    // return true;
   }
 
   handlePdfFile = (acceptedFiles) => {
@@ -123,33 +123,19 @@ class Step2 extends React.Component {
     `;
     const { selected } = this.state
     const { classes } = this.props
-    if (selected === 'pdf') {
+    const files = this.state.files.map(file => (
+      <li key={file.name}>
+        {file.name} - {file.size} bytes
+      </li>
+    ));
+    if (selected === 'pdf' || selected === 'word') {
       return (
-        <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-          {({getRootProps, getInputProps}) => (
-            <Card>
-              <div className={classes.fileUpload} {...getRootProps()}>
-                <input {...getInputProps()} />
-                <p className={classes.fileUploadText}></p>
-              </div>
-            </Card>
-          )}
-        </Dropzone>
-      )
-    } else if (selected === 'word') {
-      const files = this.state.files.map(file => (
-        <li key={file.name}>
-          {file.name} - {file.size} bytes
-        </li>
-      ));
-  
-      return (
-        <Dropzone onDrop={this.onDrop}>
+        <Dropzone onDrop={this.onDrop} accept={selected === 'pdf' ? [".pdf"] : [".doc", ".docx"]}>
           {({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject}) => (
             <Container>
               <div {...getRootProps({getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject})}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
+                <p>{`点击或直接拖入${selected === 'pdf' ? 'PDF' : 'WORD'}文件`}</p>
               </div>
               <aside>
                 <h4>Files</h4>
@@ -161,6 +147,25 @@ class Step2 extends React.Component {
       )
     } else {
       return null
+    }
+  }
+
+  MyDropzone = () => {
+    const {getRootProps, getInputProps} = useDropzone()
+
+    return (
+      <div {...getRootProps()}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      </div>
+    )
+  }
+
+  componentDidUpdate = (prevProps, prevState) => {
+    if (prevState.selected !== this.state.selected) {
+      this.setState({
+        files: []
+      })
     }
   }
 
