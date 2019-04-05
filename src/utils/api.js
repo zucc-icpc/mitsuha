@@ -132,3 +132,31 @@ export async function templateCreateAPI(title, intro, type, file) {
   }
   return res.data
 }
+
+export async function updateProfileAPI(name, type, sid, biography, avatar, level, id) {
+  const bodyFormData = new FormData();
+  bodyFormData.set('name', name)
+  bodyFormData.set('type', type)
+  bodyFormData.set('sid', sid)
+  bodyFormData.set('biography', biography)
+  bodyFormData.set('level', level)
+  if (!isNil(avatar)) {
+    bodyFormData.append('avatar', avatar)
+  }
+  console.log(bodyFormData)
+  const res = await axios.patch(`api/profile/${id}/`, bodyFormData, {
+    config: { headers: {'Content-Type': 'multipart/form-data' }}
+  })
+  if (res.status !== 200) {
+    throw new Error(`更新用户失败`);
+  }
+  return res.data
+}
+
+export async function profileAPI(id) {
+  const res = await axios.get(`api/profile/${id}/`)
+  if (res.status !== 200) {
+    throw new Error(`获取用户名片失败`);
+  }
+  return res.data;
+}

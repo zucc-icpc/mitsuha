@@ -13,7 +13,6 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.jsx";
-import PdfUpload from "../../../components/CustomUpload/PdfUpload";
 
 const style = {
   infoText: {
@@ -51,7 +50,6 @@ class Step1 extends React.Component {
           <h4 className={classes.infoText}>填写模版的基本信息</h4>
         </GridItem>
         <GridItem xs={12} sm={12}>
-          <PdfUpload></PdfUpload>
         </GridItem>
       </GridContainer>
     );

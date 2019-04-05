@@ -25,6 +25,7 @@ import SolutionDetail from "../views/Solution/SolutionDetail";
 import SolutionCreate from "../views/Solution/SolutionCreate";
 import TemplateCreate from "../views/Template/TemplateCreate";
 import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
+import Profile from "../views/Profile/Profile";
 
 var ps;
 
@@ -174,6 +175,7 @@ class Dashboard extends React.Component {
                 <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
                 <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>
                 <Route exact path="/admin/create-template/" component={TemplateCreate}></Route>
+                <Route exact path="/admin/profile/" component={Profile}></Route>
               </div>
             </div>
           ) : (

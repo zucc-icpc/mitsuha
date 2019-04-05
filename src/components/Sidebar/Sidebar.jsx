@@ -14,6 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Hidden from "@material-ui/core/Hidden";
 import Collapse from "@material-ui/core/Collapse";
 import Icon from "@material-ui/core/Icon";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 // core components
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
@@ -379,52 +380,18 @@ class Sidebar extends React.Component {
               <List className={classes.list + " " + classes.collapseList}>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="#"
+                    to="/admin/profile/"
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
                     }
                   >
                     <span className={collapseItemMini}>
-                      {rtlActive ? "مع" : "MP"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "ملفي" : "My Profile"}
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "هوع" : "EP"}
+                      <AccountCircle></AccountCircle>
                     </span>
                     <ListItemText
                       primary={
-                        rtlActive ? "تعديل الملف الشخصي" : "Edit Profile"
+                        rtlActive ? "个人信息" : "个人信息"
                       }
-                      disableTypography={true}
-                      className={collapseItemText}
-                    />
-                  </NavLink>
-                </ListItem>
-                <ListItem className={classes.collapseItem}>
-                  <NavLink
-                    to="#"
-                    className={
-                      classes.itemLink + " " + classes.userCollapseLinks
-                    }
-                  >
-                    <span className={collapseItemMini}>
-                      {rtlActive ? "و" : "S"}
-                    </span>
-                    <ListItemText
-                      primary={rtlActive ? "إعدادات" : "Settings"}
                       disableTypography={true}
                       className={collapseItemText}
                     />
