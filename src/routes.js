@@ -41,6 +41,7 @@ import People from '@material-ui/icons/People';
 import Solution from "views/Solution/Solution.jsx";
 import TemplateList from "./views/Template/TemplateList.jsx";
 import MemberList from "./views/Member/MemberList.jsx";
+import Progress from "./components/Progress/Progress.jsx";
 
 var dashRoutes = [
   {

@@ -25,6 +25,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 
 import adminNavbarLinksStyle from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.jsx";
+import { clearCookieAPI } from "../../utils/api";
 
 class HeaderLinks extends React.Component {
   state = {
@@ -37,8 +38,16 @@ class HeaderLinks extends React.Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-  handleLogout = () => {
-    localStorage.clear()
+
+  // getCookie = (name) => {
+  //   let arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+  //   if (arr != null) return unescape(arr[2]); 
+  //   return null;
+  // }
+
+
+  handleLogout = async () => {
+    await clearCookieAPI()
     this.setState({
       isLogout: true
     })

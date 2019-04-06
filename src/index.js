@@ -11,14 +11,22 @@ import "assets/scss/material-dashboard-pro-react.scss?v=1.5.0";
 import PrivateRoute from "./components/Route/PrivateRoute";
 import history from './history'
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import rootReducer from './store/reducers'
+
+export const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+
 ReactDOM.render(
-  <Router history={history}>
-    <Switch>
-      <Route path="/rtl" component={RtlLayout} />
-      <Route path="/auth" component={AuthLayout} />
-      <PrivateRoute path="/admin" component={AdminLayout} />
-      <Redirect from="/" to="/admin/dashboard" />
-    </Switch>
-  </Router>,
+  <Provider store={store}>
+    <Router history={history}>
+      <Switch>
+        <Route path="/rtl" component={RtlLayout} />
+        <Route path="/auth" component={AuthLayout} />
+        <PrivateRoute path="/admin" component={AdminLayout} />
+        <Redirect from="/" to="/admin/dashboard" />
+      </Switch>
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );

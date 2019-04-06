@@ -25,7 +25,8 @@ import CardFooter from "components/Card/CardFooter.jsx";
 import loginPageStyle from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.jsx";
 
 import { login } from "../../utils/business";
-import toastr from "toastr";
+import { connect } from 'react-redux'
+import { isNil, get } from "lodash"
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -35,7 +36,6 @@ class LoginPage extends React.Component {
       cardAnimaton: "cardHidden",
       username: "",
       password: "",
-      isLogin: localStorage.getItem('isLogin')
     };
   }
   componentDidMount() {
@@ -70,12 +70,9 @@ class LoginPage extends React.Component {
     }
   }
   render() {
-    const { classes } = this.props;
-    const isLogin = this.state.isLogin
-    if (isLogin === 'true') {
+    const { classes, isLogin } = this.props;
+    if (isLogin === true) {
       this.props.history.replace("/admin/dashboard")
-      // eslint-disable-next-line no-console
-      console.log('123')
     }
     return (
       <div className={classes.container}>
@@ -183,5 +180,12 @@ LoginPage.propTypes = {
   // enqueueSnackbar: PropTypes.func.isRequired,
 };
 
+const mapStateToProps = state => ({
+  isLogin: get(state, 'user.isLogin')
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
 const componentWithStyle = withStyles(loginPageStyle)(LoginPage)
-export default withRouter(componentWithStyle);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(componentWithStyle));

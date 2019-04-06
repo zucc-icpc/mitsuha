@@ -16,12 +16,14 @@ import GridItem from "components/Grid/GridItem.jsx";
 import PictureUpload from "components/CustomUpload/PictureUpload.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import defaultImage from "assets/img/default-avatar.png";
+// import defaultImage from "assets/img/default-avatar.png";
+import defaultImage from "assets/img/placeholder.jpg";
 import { updateProfileAPI, profileAPI } from "../../utils/api";
-import { isNil } from 'lodash';
+import { isNil, get } from 'lodash';
 import AvatarEditor from 'react-avatar-editor'
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux'
 
 const style = theme => ({
   infoText: {
@@ -54,8 +56,6 @@ class ProfileBasic extends React.Component {
       sidState: "",
       biographyState: "",
       levelState: "",
-      avatar: null,
-      imagePreviewUrl: defaultImage,
     };
   }
 
@@ -126,23 +126,12 @@ class ProfileBasic extends React.Component {
     }
     return false;
   }
-  handleImageChange = (e) => {
-    e.preventDefault();
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    reader.onloadend = () => {
-      this.setState({
-        avatar: file,
-        imagePreviewUrl: reader.result
-      });
-    };
-    reader.readAsDataURL(file);
-  }
+  
   handleSubmit = async (e) => {
     if (this.isValidated()) {
-      const {name, type, sid, biography, avatar, level} = this.state
-      const id = localStorage.getItem('id')
-      const res = await updateProfileAPI(name, type, sid, biography, avatar, level, id)
+      const {name, type, sid, biography, level} = this.state
+      const id = this.props.id
+      const res = await updateProfileAPI(name, type, sid, biography, null, level, id)
     }
   }
 
@@ -151,13 +140,12 @@ class ProfileBasic extends React.Component {
   }
 
   componentDidMount = async() => {
-    const id = localStorage.getItem('id')
+    const id = this.props.id
     const data = await profileAPI(id)
-    const {username, type, avatar, sid, level, biography, name} = data
+    const {username, type, sid, level, biography, name} = data
     this.setState({
       username: this.isNilOrEmpty(username) ? "" : username,
       type: this.isNilOrEmpty(type) ? "" : type,
-      imagePreviewUrl: this.isNilOrEmpty(data.avatar) ?  defaultImage : avatar,
       name: this.isNilOrEmpty(name) ? "" : name,
       nameState: this.isNilOrEmpty(name) ? "" : "success",
       sid: this.isNilOrEmpty(sid) ? "" : sid,
@@ -183,13 +171,11 @@ class ProfileBasic extends React.Component {
           <div className="picture-container">
           <div className="picture">
             <img
-              src={this.state.imagePreviewUrl}
+              src={isNil(this.props.avatar) ? defaultImage : this.props.avatar}
               className="picture-src"
               alt="..."
             />
-            <input type="file" onChange={e => this.handleImageChange(e)} />
           </div>
-          <h6 className="description">Choose Picture</h6>
           </div>
         </GridItem>
         <GridItem xs={12} sm={6}>
@@ -357,4 +343,12 @@ class ProfileBasic extends React.Component {
   }
 }
 
-export default withStyles(style)(ProfileBasic);
+const mapStateToProps = state => ({
+  id: get(state, 'user.id'),
+  avatar: get(state, 'user.avatar'),
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ProfileBasic));

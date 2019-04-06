@@ -5,42 +5,85 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import { isNil } from "lodash"
+import { isNil, get } from "lodash"
+import { connect } from 'react-redux'
+import toastr from "toastr";
+import Progress from "../Progress/Progress";
+import { verifyUser } from "../../utils/business";
 
-function isLogin() {
-  // const token = localStorage.getItem('token')
-  // const username = localStorage.getItem('username')
-  // const id = localStorage.getItem('id')
-  // const name = localStorage.getItem('name')
-  // const isStaff = localStorage.getItem('isStaff')
-  // if (isNil(token) || isNil(username) || isNil(name) || isNil(id) || isNil(isStaff)) {
-  //   return false
-  // }
-  // return true
-  const isLogin = localStorage.getItem('isLogin')
-  // eslint-disable-next-line no-console
-  console.log(isLogin)
-  return isLogin === 'true'
-}
+class PrivateRoute extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isLoading: true, 
+      isAuthed: false  
+    }
+  }
 
-function PrivateRoute({ component: Component, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={props =>
-        isLogin() ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/auth/login-page",
-              state: { from: props.location }
-            }}
+  checkAuth = async () => {
+    let isAuthed = false
+    const { isLogin } = this.props
+    this.setState(state => ({
+      ...state,
+      isLoading: true
+    }))
+    const data = await verifyUser()
+    if (data.isLogin) {
+      isAuthed = true
+    }
+    if (!isAuthed) {
+      toastr.warning('账号信息过期，请重新登录')
+    }
+    this.setState(state => ({
+      ...state,
+      isAuthed,
+      isLoading: false,
+    }))
+  }
+
+  UNSAFE_componentWillMount = async () => {
+    await this.checkAuth()
+  }
+
+
+  UNSAFE_componentWillReceiveProps = async (nextProps) => {
+    if (nextProps.location.pathname !== this.props.location.pathname) {
+      await this.checkAuth()
+    }
+  }
+  
+
+  render() {
+    const { component: Component, ...rest } = this.props
+    const { isLoading, isAuthed } = this.state
+    return (
+      isLoading === true
+        ? <Progress></Progress>
+        : <Route
+            {...rest}
+            render={props =>
+              isAuthed ? (
+                <Component {...props} />
+              ) : (
+                <Redirect
+                  to={{
+                    pathname: "/auth/login-page",
+                    state: { from: props.location }
+                  }}
+                />
+              )
+            }
           />
-        )
-      }
-    />
-  );
+    );
+  }
+  
 }
 
-export default PrivateRoute;
+const mapStateToProps = state => ({
+  isLogin: get(state, 'user.isLogin')
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute)

@@ -21,6 +21,9 @@ import CardBody from "components/Card/CardBody.jsx";
 import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 
 import { templateListAPI } from "../../utils/api"
+import { connect } from 'react-redux'
+import { isNil, get } from "lodash"
+
 class TemplateList extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +33,7 @@ class TemplateList extends React.Component {
   }
 
   componentDidMount = async () => {
-    const id = localStorage.getItem('id')
+    const id = this.props.id
     const data = await templateListAPI(id)
     this.setState({
       data
@@ -103,4 +106,11 @@ class TemplateList extends React.Component {
   }
 }
 
-export default withRouter(withStyles(sweetAlertStyle)(TemplateList));
+const mapStateToProps = state => ({
+  id: get(state, 'user.id')
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(sweetAlertStyle)(TemplateList)));

@@ -22,6 +22,9 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
 
 import avatar from "assets/img/faces/avatar.jpg";
+import defaultImage from "assets/img/placeholder.jpg";
+import { isNil, get } from "lodash"
+import { connect } from 'react-redux'
 
 var ps;
 
@@ -350,7 +353,7 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          <img src={avatar} className={classes.avatarImg} alt="..." />
+          <img src={isNil(this.props.avatar) ? defaultImage : this.props.avatar} className={classes.avatarImg} alt="..." />
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -360,7 +363,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={rtlActive ? "تانيا أندرو" : "Tania Andrew"}
+                primary={isNil(this.props.name) ? this.props.username : this.props.name}
                 secondary={
                   <b
                     className={
@@ -539,4 +542,13 @@ Sidebar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object)
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = state => ({
+  name: get(state, 'user.name'),
+  username:  get(state, 'user.username'),
+  avatar: get(state, 'user.avatar'),
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(sidebarStyle)(Sidebar));

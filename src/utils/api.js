@@ -71,6 +71,14 @@ export async function registerAPI(username, password, email) {
   return res.data;
 }
 
+export async function getUserAPI(id) {
+  const res = await axios.get(`api/user/${id}/`);
+  if (res.status !== 200) {
+    throw new Error('获取用户');
+  }
+  return res.data;
+}
+
 export async function solutionListAPI() {
   const res = await axios.get('api/solutions/');
   if (res.status !== 200) {
@@ -181,6 +189,22 @@ export async function memberListAPI(id) {
   const res = await axios.get(`api/profile/?type=队员`)
   if (res.status !== 200) {
     throw new Error(`获取队员失败`);
+  }
+  return res.data;
+}
+
+export async function verifyUserAPI() {
+  const res = await axios.get(`api/verify_user/`)
+  if (res.status !== 200) {
+    throw new Error(`验证用户失败`);
+  }
+  return res.data;
+}
+
+export async function clearCookieAPI() {
+  const res = await axios.post(`clear-token/`)
+  if (res.status !== 200) {
+    throw new Error(`设置cookie过期失败`);
   }
   return res.data;
 }

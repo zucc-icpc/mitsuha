@@ -16,13 +16,16 @@ import GridItem from "components/Grid/GridItem.jsx";
 import PictureUpload from "components/CustomUpload/PictureUpload.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-import defaultImage from "assets/img/default-avatar.png";
+import defaultImage from "assets/img/placeholder.jpg";
 import { updateProfileAPI, profileAPI, updateAvaterAPI } from "../../utils/api";
-import { isNil } from 'lodash';
+import { isNil, get } from 'lodash';
 import AvatarEditor from 'react-avatar-editor'
 import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/lab/Slider';
+
+import { connect } from 'react-redux'
+import { updateUser } from "../../store/actions";
 
 const style = theme => ({
   infoText: {
@@ -82,11 +85,12 @@ class ProfileAvatar extends React.Component {
 
       // If you want the image resized to the canvas size (also a HTMLCanvasElement)
       const canvasScaled = this.editor.getImageScaledToCanvas()
-      const id = localStorage.getItem('id')
+      const id = this.props.id
       canvas.toBlob(async (avatar) => {
-        const file = new File([avatar], 'avatar.png')
+        const file = new File([avatar], `avatar-${id}-${new Date().getTime()}.png`)
         console.log(file)
         const data = await updateAvaterAPI(id, file)
+        this.props.updataAvatar(data.avatar)
       })
     }
   }
@@ -157,4 +161,12 @@ class ProfileAvatar extends React.Component {
   }
 }
 
-export default withStyles(style)(ProfileAvatar);
+const mapStateToProps = state => ({
+  id: get(state, 'user.id')
+})
+
+const mapDispatchToProps = dispatch => ({
+  updataAvatar: (avatar) => dispatch(updateUser({avatar}))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ProfileAvatar));
