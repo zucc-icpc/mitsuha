@@ -23,6 +23,7 @@ import CardBody from "components/Card/CardBody.jsx";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 import ProfileBasic from "./ProfileBasic";
+import ProfileAvatar from "./ProfileAvatar";
 
 const styles = {
   cardTitle,
@@ -62,27 +63,11 @@ class Panels extends React.Component {
                   )
                 },
                 {
-                  tabButton: "安全设置",
+                  tabButton: "头像设置",
                   tabIcon: Gavel,
                   tabContent: (
                     <Card>
-                      <CardHeader>
-                        <h4 className={classes.cardTitle}>
-                          Legal info of the product
-                        </h4>
-                        <p className={classes.cardCategory}>
-                          More information here
-                        </p>
-                      </CardHeader>
-                      <CardBody>
-                        Completely synergize resource taxing relationships via
-                        premier niche markets. Professionally cultivate
-                        one-to-one customer service with robust ideas.
-                        <br />
-                        <br />
-                        Dynamically innovate resource-leveling customer service
-                        for state of the art customer service.
-                      </CardBody>
+                      <ProfileAvatar></ProfileAvatar>
                     </Card>
                   )
                 },

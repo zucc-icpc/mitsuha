@@ -37,9 +37,10 @@ import Image from "@material-ui/icons/Image";
 import Place from "@material-ui/icons/Place";
 import Timeline from "@material-ui/icons/Timeline";
 import WidgetsIcon from "@material-ui/icons/Widgets";
-
+import People from '@material-ui/icons/People';
 import Solution from "views/Solution/Solution.jsx";
 import TemplateList from "./views/Template/TemplateList.jsx";
+import MemberList from "./views/Member/MemberList.jsx";
 
 var dashRoutes = [
   {
@@ -56,6 +57,14 @@ var dashRoutes = [
     rtlName: "模版",
     icon: GridOn,
     component: TemplateList,
+    layout: "/admin"
+  },
+  {
+    path: "/member",
+    name: "成员",
+    rtlName: "成员",
+    icon: People,
+    component: MemberList,
     layout: "/admin"
   },
   {

@@ -19,8 +19,11 @@ import Button from "components/CustomButtons/Button.jsx";
 import defaultImage from "assets/img/default-avatar.png";
 import { updateProfileAPI, profileAPI } from "../../utils/api";
 import { isNil } from 'lodash';
+import AvatarEditor from 'react-avatar-editor'
+import Modal from '@material-ui/core/Modal';
+import Typography from '@material-ui/core/Typography';
 
-const style = {
+const style = theme => ({
   infoText: {
     fontWeight: "300",
     margin: "10px 0 30px",
@@ -34,8 +37,8 @@ const style = {
   },
   textAlignCenter: {
     textAlign: "center"
-  }
-};
+  },
+});
 
 class ProfileBasic extends React.Component {
   constructor(props) {
@@ -166,6 +169,7 @@ class ProfileBasic extends React.Component {
     })
   }
 
+
   render() {
     const { classes } = this.props;
     return (
@@ -236,7 +240,7 @@ class ProfileBasic extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
+        <GridItem xs={10} sm={10} md={10} lg={10}>
           <CustomInput
             success={this.state.nameState === "success"}
             error={this.state.nameState === "error"}
@@ -250,7 +254,7 @@ class ProfileBasic extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'name', 'length', 3),
+              onChange: event => this.change(event, 'name', 'length', 2),
               endAdornment: (
                 <InputAdornment
                   position="end"
@@ -263,7 +267,7 @@ class ProfileBasic extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
+        <GridItem xs={10} sm={10} md={10} lg={10}>
           <CustomInput
             success={this.state.sidState === "success"}
             error={this.state.sidState === "error"}
@@ -290,7 +294,7 @@ class ProfileBasic extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
+        <GridItem xs={10} sm={10} md={10} lg={10}>
           <CustomInput
             success={this.state.levelState === "success"}
             error={this.state.levelState === "error"}
@@ -317,7 +321,7 @@ class ProfileBasic extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
+        <GridItem xs={10} sm={10} md={10} lg={10}>
           <CustomInput
             success={this.state.biographyState === "success"}
             error={this.state.biographyState === "error"}
@@ -345,7 +349,7 @@ class ProfileBasic extends React.Component {
           />
         </GridItem>
         
-        <GridItem xs={12} sm={4} md={4} lg={3} className={classes.textAlignCenter}>
+        <GridItem xs={10} sm={4} md={4} lg={3} className={classes.textAlignCenter}>
           <Button color="primary" onClick={this.handleSubmit}>更新</Button>
         </GridItem>
       </GridContainer>

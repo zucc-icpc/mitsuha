@@ -153,10 +153,34 @@ export async function updateProfileAPI(name, type, sid, biography, avatar, level
   return res.data
 }
 
+
+export async function updateAvaterAPI(id, avatar) {
+  const bodyFormData = new FormData();
+  if (!isNil(avatar)) {
+    bodyFormData.append('avatar', avatar)
+  }
+  console.log(bodyFormData)
+  const res = await axios.patch(`api/profile/${id}/`, bodyFormData, {
+    config: { headers: {'Content-Type': 'multipart/form-data' }}
+  })
+  if (res.status !== 200) {
+    throw new Error(`更新用户头像失败`);
+  }
+  return res.data
+}
+
 export async function profileAPI(id) {
   const res = await axios.get(`api/profile/${id}/`)
   if (res.status !== 200) {
     throw new Error(`获取用户名片失败`);
+  }
+  return res.data;
+}
+
+export async function memberListAPI(id) {
+  const res = await axios.get(`api/profile/?type=队员`)
+  if (res.status !== 200) {
+    throw new Error(`获取队员失败`);
   }
   return res.data;
 }
