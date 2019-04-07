@@ -25,6 +25,8 @@ import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
 
+import Stackedit from 'stackedit-js';
+
 const style = theme => ({
   infoText: {
     fontWeight: "300",
@@ -56,7 +58,17 @@ class ProfileBasic extends React.Component {
       sidState: "",
       biographyState: "",
       levelState: "",
+      stackedit: new Stackedit(),
     };
+  }
+
+  handleOpenMarkdown = () => {
+    this.state.stackedit.openFile({
+      name: 'Filename', // with an optional filename
+      content: {
+        text: this.state.biography // and the Markdown content.
+      }
+    });
   }
 
   sendState() {
@@ -131,7 +143,7 @@ class ProfileBasic extends React.Component {
     if (this.isValidated()) {
       const {name, type, sid, biography, level} = this.state
       const id = this.props.id
-      const res = await updateProfileAPI(name, type, sid, biography, null, level, id)
+      const res = await updateProfileAPI({name, type, sid, biography, level, id})
     }
   }
 
@@ -157,9 +169,16 @@ class ProfileBasic extends React.Component {
     })
   }
 
+  handleFileChange = (file) => {
+    this.setState({
+      biography: file.content.text,
+      biographyState: !isNil(file.content.text) && file.content.text.length > 0 ? 'success' : ''
+    })
+  }
 
   render() {
     const { classes } = this.props;
+    this.state.stackedit.on('fileChange', (file) => this.handleFileChange(file));
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
@@ -235,7 +254,7 @@ class ProfileBasic extends React.Component {
                 真实姓名 <small>(必填)</small>
               </span>
             }
-            id="email"
+            id="name"
             formControlProps={{
               fullWidth: true
             }}
@@ -262,7 +281,7 @@ class ProfileBasic extends React.Component {
                 学号 <small>(必填)</small>
               </span>
             }
-            id="email"
+            id="sid"
             formControlProps={{
               fullWidth: true
             }}
@@ -289,7 +308,7 @@ class ProfileBasic extends React.Component {
                 入学年份 <small>(必填，如2015)</small>
               </span>
             }
-            id="email"
+            id="level"
             formControlProps={{
               fullWidth: true
             }}
@@ -316,23 +335,31 @@ class ProfileBasic extends React.Component {
                 个人简介 <small>(选填)</small>
               </span>
             }
-            id="email"
+            id="biography"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
               onChange: event => this.change(event, 'biography', 'option'),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  {/* <Email className={classes.inputAdornmentIcon} /> */}
-                </InputAdornment>
-              ),
-              value: this.state.biography
+              // endAdornment: (
+              //   <InputAdornment
+              //     position="end"
+              //     className={classes.inputAdornment}
+              //   >
+              //     {/* <Email className={classes.inputAdornmentIcon} /> */}
+              //   </InputAdornment>
+              // ),
+              value: this.state.biography,
+              multiline: true,
+              rows: 5,
             }}
           />
+          <Button
+            color="info"
+            onClick={this.handleOpenMarkdown}
+          >
+            使用Markdown编辑器
+          </Button>
         </GridItem>
         
         <GridItem xs={10} sm={4} md={4} lg={3} className={classes.textAlignCenter}>

@@ -141,13 +141,17 @@ export async function templateCreateAPI(title, intro, type, file) {
   return res.data
 }
 
-export async function updateProfileAPI(name, type, sid, biography, avatar, level, id) {
+export async function updateProfileAPI(payload) {
   const bodyFormData = new FormData();
-  bodyFormData.set('name', name)
-  bodyFormData.set('type', type)
-  bodyFormData.set('sid', sid)
-  bodyFormData.set('biography', biography)
-  bodyFormData.set('level', level)
+  const keys = Object.keys(payload)
+  keys.forEach(key => {
+    const val = payload[key]
+    if (!isNil(val) && key !== 'avatar' && key !== 'id') {
+      bodyFormData.set([key], val)
+    }
+  })
+  const avatar = payload.avatar
+  const id = payload.id
   if (!isNil(avatar)) {
     bodyFormData.append('avatar', avatar)
   }
@@ -205,6 +209,14 @@ export async function clearCookieAPI() {
   const res = await axios.post(`clear-token/`)
   if (res.status !== 200) {
     throw new Error(`设置cookie过期失败`);
+  }
+  return res.data;
+}
+
+export async function honorListAPI() {
+  const res = await axios.get('api/honors/')
+  if (res.status !== 200) {
+    throw new Error(`获取故事失败`);
   }
   return res.data;
 }

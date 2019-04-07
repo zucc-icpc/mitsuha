@@ -11,6 +11,7 @@ import LocationOn from "@material-ui/icons/LocationOn";
 import Gavel from "@material-ui/icons/Gavel";
 import HelpOutline from "@material-ui/icons/HelpOutline";
 import AssignmentInd from "@material-ui/icons/AssignmentInd";
+import School from "@material-ui/icons/School";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -24,6 +25,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 import ProfileBasic from "./ProfileBasic";
 import ProfileAvatar from "./ProfileAvatar";
+import ProfileGraduate from "./ProfileGraduate";
 
 const styles = {
   cardTitle,
@@ -68,6 +70,15 @@ class Panels extends React.Component {
                   tabContent: (
                     <Card>
                       <ProfileAvatar></ProfileAvatar>
+                    </Card>
+                  )
+                },
+                {
+                  tabButton: "毕业去向",
+                  tabIcon: School,
+                  tabContent: (
+                    <Card>
+                      <ProfileGraduate></ProfileGraduate>
                     </Card>
                   )
                 },

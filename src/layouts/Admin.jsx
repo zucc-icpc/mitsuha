@@ -26,6 +26,7 @@ import SolutionCreate from "../views/Solution/SolutionCreate";
 import TemplateCreate from "../views/Template/TemplateCreate";
 import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
 import Profile from "../views/Profile/Profile";
+import ProfileDisplay from "../views/Profile/ProfileDisplay";
 
 var ps;
 
@@ -148,7 +149,7 @@ class Dashboard extends React.Component {
       <div className={classes.wrapper}>
         <Sidebar
           routes={routes}
-          logoText={"Creative Tim"}
+          logoText={"ACM实验室"}
           logo={logo}
           image={this.state.image}
           handleDrawerToggle={this.handleDrawerToggle}
@@ -176,6 +177,7 @@ class Dashboard extends React.Component {
                 <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>
                 <Route exact path="/admin/create-template/" component={TemplateCreate}></Route>
                 <Route exact path="/admin/profile/" component={Profile}></Route>
+                <Route exact path="/admin/member/:id/" component={ProfileDisplay}></Route>
               </div>
             </div>
           ) : (

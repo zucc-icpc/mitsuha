@@ -20,6 +20,7 @@ import CardAvatar from "components/Card/CardAvatar.jsx";
 
 import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweetAlertStyle.jsx";
 import { isNil } from "lodash";
+import defaultImage from "assets/img/placeholder.jpg";
 
 import { templateListAPI, memberListAPI } from "../../utils/api"
 class MemberList extends React.Component {
@@ -35,7 +36,7 @@ class MemberList extends React.Component {
     let dic = {}
     for (let i = 0; i < data.length; i ++) {
       const item = data[i];
-      if (isNil(item.level)) {
+      if (this.isNilOrEmpty(item.level)) {
         continue
       }
       if (isNil(dic[item.level])) {
@@ -49,20 +50,16 @@ class MemberList extends React.Component {
     })
   }
 
-  handleOnClick = (id, type, pdf, word) => {
-    if (type === 'pdf') {
-      window.open(pdf)
-      // window.open(`http://view.officeapps.live.com/op/view.aspx?src=${pdf}`)
-    } else if (type === 'word') {
-      window.open(word)
-      // window.open(`http://view.officeapps.live.com/op/view.aspx?src=${pdf}`)
-    } else {
-      this.props.history.push(`/admin/template/${id}/code/`)
-    }
+  handleOnClick = (id) => {
+    this.props.history.push(`/admin/member/${id}/`)
   }
   
   handleCreate = () => {
     this.props.history.push("/admin/create-template/")
+  }
+
+  isNilOrEmpty = (s) => {
+    return isNil(s) || s.length === 0
   }
 
   render() {
@@ -94,12 +91,13 @@ class MemberList extends React.Component {
                 <GridContainer>
                   {
                     data[item].map((item, key) => {
+                      const avatar = item.avatar
                       return (
                         <GridItem xs={12} sm={12} md={3}>
                           <Card profile>
                             <CardAvatar profile>
                               <a href="#pablo" onClick={e => e.preventDefault()}>
-                                <img src={item.avatar} alt="..." />
+                                <img src={this.isNilOrEmpty(avatar) ? defaultImage : avatar} alt="..." />
                               </a>
                             </CardAvatar>
                             <CardBody profile>
@@ -108,6 +106,7 @@ class MemberList extends React.Component {
                                 <Button
                                   color="rose"
                                   size="sm"
+                                  onClick={() => this.handleOnClick(item.user)}
                                   // onClick={() => this.handleOnClick(item.id, item.type, item.pdf, item.word)}
                                 >
                                   查看

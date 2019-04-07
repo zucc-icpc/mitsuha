@@ -42,6 +42,7 @@ import Solution from "views/Solution/Solution.jsx";
 import TemplateList from "./views/Template/TemplateList.jsx";
 import MemberList from "./views/Member/MemberList.jsx";
 import Progress from "./components/Progress/Progress.jsx";
+import Honor from "./views/Honor/Honor.jsx";
 
 var dashRoutes = [
   {
@@ -66,6 +67,14 @@ var dashRoutes = [
     rtlName: "成员",
     icon: People,
     component: MemberList,
+    layout: "/admin"
+  },
+  {
+    path: "/honor",
+    name: "故事",
+    rtlName: "故事",
+    icon: People,
+    component: Honor,
     layout: "/admin"
   },
   {
