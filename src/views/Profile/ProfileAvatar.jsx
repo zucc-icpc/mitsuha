@@ -121,7 +121,7 @@ class ProfileAvatar extends React.Component {
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
-            Let's start with the basic information (with validation)
+            上传并剪裁你的头像
           </h4>
         </GridItem>
         <GridItem className={classes.textAlignCenter}>

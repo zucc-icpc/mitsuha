@@ -84,9 +84,9 @@ class LoginPage extends React.Component {
                   className={`${classes.cardHeader} ${classes.textCenter}`}
                   color="rose"
                 >
-                  <h4 className={classes.cardTitle}>Log in</h4>
+                  <h4 className={classes.cardTitle}>登录</h4>
                   <div className={classes.socialLine}>
-                    {[
+                    {/* {[
                       "fab fa-facebook-square",
                       "fab fa-twitter",
                       "fab fa-google-plus"
@@ -101,7 +101,7 @@ class LoginPage extends React.Component {
                           <i className={prop} />
                         </Button>
                       );
-                    })}
+                    })} */}
                   </div>
                 </CardHeader>
                 <CardBody>

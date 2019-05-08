@@ -27,6 +27,7 @@ import TemplateCreate from "../views/Template/TemplateCreate";
 import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
 import Profile from "../views/Profile/Profile";
 import ProfileDisplay from "../views/Profile/ProfileDisplay";
+import Solution from "../views/Solution/Solution";
 
 var ps;
 
@@ -36,10 +37,10 @@ class Dashboard extends React.Component {
     this.state = {
       mobileOpen: false,
       miniActive: false,
-      image: image,
-      color: "blue",
+      // image: image,
+      color: "white",
       bgColor: "black",
-      hasImage: true,
+      hasImage: false,
       fixedClasses: "dropdown"
     };
     this.resizeFunction = this.resizeFunction.bind(this);
@@ -91,7 +92,7 @@ class Dashboard extends React.Component {
     return this.props.location.pathname !== "/admin/full-screen-maps";
   }
   getActiveRoute = routes => {
-    let activeRoute = "Default Brand Text";
+    let activeRoute = "";
     for (let i = 0; i < routes.length; i++) {
       if (routes[i].collapse) {
         let collapseActiveRoute = this.getActiveRoute(routes[i].views);
@@ -172,6 +173,7 @@ class Dashboard extends React.Component {
             <div className={classes.content}>
               <div className={classes.container}>
                 <Switch>{this.getRoutes(routes)}</Switch>
+                <Route exact path="/admin/dashboard/" component={Solution}></Route>
                 <Route exact path="/admin/solution/:id/" component={SolutionDetail}></Route>
                 <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
                 <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>

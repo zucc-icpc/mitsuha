@@ -111,13 +111,13 @@ class RegisterPage extends React.Component {
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={10}>
             <Card className={classes.cardSignup}>
-              <h2 className={classes.cardTitle}>Register</h2>
+              <h2 className={classes.cardTitle}>注册</h2>
               <CardBody>
                 <GridContainer justify="center">
                   <GridItem xs={12} sm={12} md={5}>
                     <InfoArea
-                      title="Marketing"
-                      description="We've created the marketing campaign of the website. It was a very interesting collaboration."
+                      title="提升"
+                      description="分享你的题解、模版，同时提升你的编程水平"
                       icon={Timeline}
                       iconColor="rose"
                     />
@@ -128,8 +128,8 @@ class RegisterPage extends React.Component {
                       iconColor="primary"
                     /> */}
                     <InfoArea
-                      title="Built Audience"
-                      description="There is also a Fully Customizable CMS Admin Dashboard for this product."
+                      title="社区"
+                      description="在这里，你将认识更多志同道合优秀的编程爱好者"
                       icon={Group}
                       iconColor="info"
                     />
@@ -237,7 +237,7 @@ class RegisterPage extends React.Component {
                           type: "password",
                         }}
                       />
-                      <FormControlLabel
+                      {/* <FormControlLabel
                         classes={{
                           root: classes.checkboxLabelControl,
                           label: classes.checkboxLabel
@@ -262,7 +262,7 @@ class RegisterPage extends React.Component {
                             <a href="#pablo">terms and conditions</a>.
                           </span>
                         }
-                      />
+                      /> */}
                       <div className={classes.center}>
                         <Button round color="primary" disabled={!this.validateForm()} onClick={this.handleSubmit}>
                           Get started

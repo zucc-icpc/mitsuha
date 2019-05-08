@@ -19,6 +19,10 @@ import CardBody from "components/Card/CardBody.jsx";
 import { solutionDetailAPI } from "../../utils/api";
 // const ReactMarkdown = require('react-markdown')
 import ReactMarkdown from "react-markdown";
+import MathJax from "@matejmazur/react-mathjax";
+import RemarkMathPlugin from "remark-math";
+import Button from "components/CustomButtons/Button.jsx";
+
 const style = {
   typo: {
     // paddingLeft: "25%",
@@ -68,6 +72,14 @@ class SolutionDetail extends React.Component {
           title={this.state.title}
           category={`作者：${this.state.owner}`}
         />
+          {/* <Button 
+            color="primary"
+            onClick={() => {
+              this.props.history.push('/admin/edit-solution/')
+            }}
+          >
+            编辑题解
+          </Button> */}
         <Card>
           <CardBody>
           <div className={classes.typo}>
@@ -75,10 +87,10 @@ class SolutionDetail extends React.Component {
             {/* <p>
               {this.state.content}
             </p> */}
-            <ReactMarkdown 
-              source={this.state.content}
-              escapeHtml={false}
-            />
+              <ReactMarkdown 
+                source={this.state.content}
+                escapeHtml={false}
+              />
           </div>
           </CardBody>
         </Card>

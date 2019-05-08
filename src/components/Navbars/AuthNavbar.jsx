@@ -56,13 +56,13 @@ class AuthNavbar extends React.Component {
           <NavLink to={"/admin/dashboard"} className={classes.navLink}>
             <Dashboard className={classes.listItemIcon} />
             <ListItemText
-              primary={"Dashboard"}
+              primary={"主页"}
               disableTypography={true}
               className={classes.listItemText}
             />
           </NavLink>
         </ListItem>
-        <ListItem className={classes.listItem}>
+        {/* <ListItem className={classes.listItem}>
           <NavLink
             to={"/auth/pricing-page"}
             className={cx(classes.navLink, {
@@ -76,7 +76,7 @@ class AuthNavbar extends React.Component {
               className={classes.listItemText}
             />
           </NavLink>
-        </ListItem>
+        </ListItem> */}
         <ListItem className={classes.listItem}>
           <NavLink
             to={"/auth/register-page"}
@@ -86,7 +86,7 @@ class AuthNavbar extends React.Component {
           >
             <PersonAdd className={classes.listItemIcon} />
             <ListItemText
-              primary={"Register"}
+              primary={"注册"}
               disableTypography={true}
               className={classes.listItemText}
             />
@@ -101,13 +101,13 @@ class AuthNavbar extends React.Component {
           >
             <Fingerprint className={classes.listItemIcon} />
             <ListItemText
-              primary={"Login"}
+              primary={"登录"}
               disableTypography={true}
               className={classes.listItemText}
             />
           </NavLink>
         </ListItem>
-        <ListItem className={classes.listItem}>
+        {/* <ListItem className={classes.listItem}>
           <NavLink
             to={"/auth/lock-screen-page"}
             className={cx(classes.navLink, {
@@ -123,7 +123,7 @@ class AuthNavbar extends React.Component {
               className={classes.listItemText}
             />
           </NavLink>
-        </ListItem>
+        </ListItem> */}
       </List>
     );
     return (

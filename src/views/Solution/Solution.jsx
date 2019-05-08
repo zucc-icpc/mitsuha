@@ -17,16 +17,12 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
-
 import { dataTable } from "variables/general.jsx";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
-
 import { solutionListAPI } from "../../utils/api"
-
 import { withRouter } from "react-router-dom";
-
 import SolutionDetail from "./SolutionDetail";
+import { isNil } from "lodash";
 
 const styles = {
   cardIconTitle: {
@@ -42,13 +38,14 @@ class Solution extends React.Component {
     const data = await solutionListAPI();
     this.setState({
       data: data.map((prop, key) => {
+        const created = isNil(prop["created"]) ? null : prop["created"].substr(0, 10)
         return {
           id: prop["id"],
           title: prop["title"],
           oj: prop["oj"],
           pid: prop["pid"],
           owner: prop["owner"],
-          created: prop["created"],
+          created,
           actions: (
             // we've added some custom button actions
             <div className="actions-right">
@@ -82,8 +79,6 @@ class Solution extends React.Component {
           oj: prop[1],
           pid: prop[2],
           owner: prop[3],
-          created: prop[3],
-          
         };
       })
     };

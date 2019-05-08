@@ -152,7 +152,7 @@ class ProfileBasic extends React.Component {
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
-            Let's start with the basic information (with validation)
+            填写你的毕业去向
           </h4>
         </GridItem>
         <GridItem xs={10} sm={10} md={10} lg={10}>

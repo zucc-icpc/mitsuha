@@ -56,7 +56,7 @@ class HeaderLinks extends React.Component {
     const { classes, rtlActive } = this.props;
     const { open, isLogout } = this.state;
     if (isLogout) {
-      return (<Redirect from="/admin/dashboard" to="/auth" />)
+      return (<Redirect from="/admin/dashboard" to="/auth/login-page" />)
     }
     const searchButton =
       classes.top +

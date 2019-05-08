@@ -104,11 +104,11 @@ class Step1 extends React.Component {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
-        <GridItem xs={12} sm={12}>
+        {/* <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
             Let's start with the basic information (with validation)
           </h4>
-        </GridItem>
+        </GridItem> */}
         <GridItem xs={12} sm={4}>
           <PictureUpload />
         </GridItem>

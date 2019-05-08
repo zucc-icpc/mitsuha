@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.2.2",
+    "@matejmazur/react-mathjax": "^0.1.10",
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "@material-ui/lab": "^3.0.0-alpha.30",
@@ -72,6 +73,7 @@
     "react-table": "6.9.2",
     "react-tagsinput": "3.19.0",
     "redux": "^4.0.1",
+    "remark-math": "^1.0.6",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "stackedit-js": "^1.0.7",

@@ -8,16 +8,14 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
-
-import routes from "routes.js";
-
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/authStyle.jsx";
-
 import register from "assets/img/register.jpeg";
 import login from "assets/img/login.jpeg";
 import lock from "assets/img/lock.jpeg";
 import error from "assets/img/clint-mckoy.jpg";
 import pricing from "assets/img/bg-pricing.jpeg";
+import LoginPage from "views/Pages/LoginPage.jsx";
+import RegisterPage from "views/Pages/RegisterPage.jsx";
 
 class Pages extends React.Component {
   componentDidMount() {
@@ -76,6 +74,20 @@ class Pages extends React.Component {
   };
   render() {
     const { classes, ...rest } = this.props;
+    const routes = [
+      {
+        path: "/login-page",
+        name: "登录",
+        component: LoginPage,
+        layout: "/auth"
+      },
+      {
+        path: "/register-page",
+        name: "注册",
+        component: RegisterPage,
+        layout: "/auth"
+      },
+    ]
     return (
       <div>
         <AuthNavbar brandText={this.getActiveRoute(routes)} {...rest} />
