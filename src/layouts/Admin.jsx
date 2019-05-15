@@ -28,6 +28,7 @@ import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
 import Profile from "../views/Profile/Profile";
 import ProfileDisplay from "../views/Profile/ProfileDisplay";
 import Solution from "../views/Solution/Solution";
+import SolutionEdit from "../views/Solution/SolutionEdit";
 
 var ps;
 
@@ -176,6 +177,7 @@ class Dashboard extends React.Component {
                 <Route exact path="/admin/dashboard/" component={Solution}></Route>
                 <Route exact path="/admin/solution/:id/" component={SolutionDetail}></Route>
                 <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
+                <Route exact path="/admin/edit-solution/:id/" component={SolutionEdit}></Route>
                 <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>
                 <Route exact path="/admin/create-template/" component={TemplateCreate}></Route>
                 <Route exact path="/admin/profile/" component={Profile}></Route>

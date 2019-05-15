@@ -22,6 +22,10 @@ import ReactMarkdown from "react-markdown";
 import MathJax from "@matejmazur/react-mathjax";
 import RemarkMathPlugin from "remark-math";
 import Button from "components/CustomButtons/Button.jsx";
+import { connect } from 'react-redux';
+import { get } from 'lodash';
+import SweetAlert from "react-bootstrap-sweetalert";
+import buttonStyle from "assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx";
 
 const style = {
   typo: {
@@ -41,7 +45,8 @@ const style = {
     marginLeft: "20px",
     position: "absolute",
     width: "260px"
-  }
+  },
+  ...buttonStyle
 };
 
 class SolutionDetail extends React.Component {
@@ -61,8 +66,60 @@ class SolutionDetail extends React.Component {
       content: "",
       title: "",
       owner: "",
+      alert: null,
     }
   }
+
+  hideAlert = () => {
+    this.setState({
+      alert: null
+    });
+  }
+
+  successDelete = () => {
+    this.setState({
+      alert: (
+        <SweetAlert
+          success
+          style={{ display: "block", marginTop: "-100px" }}
+          title="删除成功"
+          onConfirm={() => this.hideAlert()}
+          onCancel={() => this.hideAlert()}
+          confirmBtnCssClass={
+            this.props.classes.button + " " + this.props.classes.success
+          }
+        >
+          {/* 题解已删除 */}
+        </SweetAlert>
+      )
+    });
+  }
+
+  warningWithConfirmMessage = () => {
+    this.setState({
+      alert: (
+        <SweetAlert
+          warning
+          style={{ display: "block", marginTop: "-100px" }}
+          title="确定删除"
+          onConfirm={() => this.successDelete()}
+          onCancel={() => this.hideAlert()}
+          confirmBtnCssClass={
+            this.props.classes.button + " " + this.props.classes.success
+          }
+          cancelBtnCssClass={
+            this.props.classes.button + " " + this.props.classes.danger
+          }
+          confirmBtnText="确定"
+          cancelBtnText="取消"
+          showCancel
+        >
+          删除之后不可恢复
+        </SweetAlert>
+      )
+    });
+  }
+
   render() {
     const { classes } = this.props
     return (
@@ -72,14 +129,28 @@ class SolutionDetail extends React.Component {
           title={this.state.title}
           category={`作者：${this.state.owner}`}
         />
-          {/* <Button 
-            color="primary"
-            onClick={() => {
-              this.props.history.push('/admin/edit-solution/')
-            }}
-          >
-            编辑题解
-          </Button> */}
+        {
+          this.props.username === this.state.owner ? (
+            <div>
+              <Button 
+                color="primary"
+                onClick={() => {
+                  this.props.history.push(`/admin/edit-solution/${this.props.match.params.id}/`)
+                }}
+                >
+                编辑
+              </Button>
+              <Button 
+                color="primary"
+                onClick={this.warningWithConfirmMessage}
+              >
+                删除
+              </Button>
+            </div>
+          
+          ) : null
+        }
+        {this.state.alert}
         <Card>
           <CardBody>
           <div className={classes.typo}>
@@ -104,4 +175,11 @@ SolutionDetail.propTypes = {
   match: PropTypes.object.isRequired
 };
 
-export default withStyles(style)(SolutionDetail);
+const mapStateToProps = state => ({
+  username: get(state, 'user.username'),
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(SolutionDetail));

@@ -109,6 +109,17 @@ export async function solutionCreateAPI(title, oj, pid, content) {
   return res.data;
 }
 
+export async function solutionUpdateAPI(id, content) {
+  const data = {
+    content,
+  };
+  const res = await axios.patch(`api/solutions/${id}/`, data);
+  if (res.status !== 200) {
+    throw new Error(`更新题解失败`);
+  }
+  return res.data;
+}
+
 export async function templateListAPI(userId) {
   const res = await axios.get(`api/templates/?owner=${userId}`);
   if (res.status !== 200) {
