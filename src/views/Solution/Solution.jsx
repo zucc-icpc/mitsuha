@@ -34,57 +34,35 @@ const styles = {
 
 class Solution extends React.Component {
 
-  componentDidMount = async () => {
-    const data = await solutionListAPI();
+  fetchData = async (state, instance) => {
+    this.setState({ loading: true })
+    const res = await solutionListAPI(state.page + 1, state.filtered, state.sorted)
+    const data = res.results
+    const pages = Math.ceil(res.count / state.pageSize)
+    console.log(data, pages)
+    console.log(res)
+    console.log(state.filtered)
+    console.log(state.sorted)
     this.setState({
-      data: data.map((prop, key) => {
-        const created = isNil(prop["created"]) ? null : prop["created"].substr(0, 10)
-        return {
-          id: prop["id"],
-          title: prop["title"],
-          oj: prop["oj"],
-          pid: prop["pid"],
-          owner: prop["owner"],
-          created,
-          actions: (
-            // we've added some custom button actions
-            <div className="actions-right">
-              {/* use this button to add a like kind of action */}
-              <Button
-                justIcon
-                round
-                simple
-                onClick={() => {
-
-                }}
-                color="info"
-                className="like"
-              >
-                <Favorite />
-              </Button>{" "}
-            </div>
-          )
-        }
-      })
+      data,
+      pages,
+      loading: false
     })
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      data: dataTable.dataRows.map((prop, key) => {
-        return {
-          id: key,
-          title: prop[0],
-          oj: prop[1],
-          pid: prop[2],
-          owner: prop[3],
-        };
-      })
+      data: [],
+      pages: null,
+      loading: true,
+      pageSize: 10,
     };
   }
+
   render() {
     const { classes } = this.props;
+    const {pages, loading, data, pageSize} = this.state
     return (
       <GridContainer justify="center">
         <GridItem xs={12}>
@@ -97,8 +75,14 @@ class Solution extends React.Component {
             </CardHeader>
             <CardBody>
               <ReactTable
-                data={this.state.data}
+                manual
+                data={data}
+                pages={pages} // Display the total number of pages
+                loading={loading} // Display the loading overlay when we need it
+                onFetchData={this.fetchData} // Request new data when things change
+                showPageSizeOptions={false}
                 filterable
+                sortable={true}
                 getTrProps={(state, rowInfo, column, instance) => ({
                   onClick: e => {
                     // history.push
@@ -125,16 +109,11 @@ class Solution extends React.Component {
                   },
                   {
                     Header: "发布时间",
-                    accessor: "created"
+                    accessor: "created",
+                    filterable: false,
                   },
-                  // {
-                  //   Header: "Actions",
-                  //   accessor: "actions",
-                  //   sortable: false,
-                  //   filterable: false
-                  // }
                 ]}
-                defaultPageSize={10}
+                pageSize={pageSize}
                 showPaginationTop
                 showPaginationBottom={false}
                 className="-striped -highlight"

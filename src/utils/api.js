@@ -79,13 +79,26 @@ export async function getUserAPI(id) {
   return res.data;
 }
 
-export async function solutionListAPI() {
-  const res = await axios.get('api/solutions/');
+export async function solutionListAPI(page, filtered, sorted) {
+  let params = {}
+  if (!isNil(filtered)) {
+    filtered.forEach(item => {
+      params[item.id] = item.value
+    })
+  }
+  if (!isNil(sorted) && sorted.length > 0) {
+    const id = sorted[0].id
+    params['ordering'] = sorted[0].desc ? `-${id}` : id
+  }
+  const res = await axios.get(`api/solutions/?page=${page}`, {
+    params
+  });
   if (res.status !== 200) {
     throw new Error('获取题解列表失败');
   }
   return res.data;
 }
+
 
 export async function solutionDetailAPI(id) {
   const res = await axios.get(`api/solutions/${id}/`);
@@ -116,6 +129,15 @@ export async function solutionUpdateAPI(id, content) {
   const res = await axios.patch(`api/solutions/${id}/`, data);
   if (res.status !== 200) {
     throw new Error(`更新题解失败`);
+  }
+  return res.data;
+}
+
+export async function solutionDeleteAPI(id) {
+  console.log('delete', id)
+  const res = await axios.delete(`api/solutions/${id}/`);
+  if (res.status !== 204) {
+    throw new Error(`删除题解失败`);
   }
   return res.data;
 }

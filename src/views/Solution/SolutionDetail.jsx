@@ -16,7 +16,7 @@ import Heading from "components/Heading/Heading.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-import { solutionDetailAPI } from "../../utils/api";
+import { solutionDetailAPI, solutionDeleteAPI } from "../../utils/api";
 // const ReactMarkdown = require('react-markdown')
 import ReactMarkdown from "react-markdown";
 import MathJax from "@matejmazur/react-mathjax";
@@ -26,6 +26,8 @@ import { connect } from 'react-redux';
 import { get } from 'lodash';
 import SweetAlert from "react-bootstrap-sweetalert";
 import buttonStyle from "assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx";
+
+import { withRouter } from "react-router-dom";
 
 const style = {
   typo: {
@@ -67,6 +69,7 @@ class SolutionDetail extends React.Component {
       title: "",
       owner: "",
       alert: null,
+      id: this.props.match.params.id
     }
   }
 
@@ -76,7 +79,9 @@ class SolutionDetail extends React.Component {
     });
   }
 
-  successDelete = () => {
+  successDelete = async () => {
+    const res = await solutionDeleteAPI(this.state.id)
+    console.log('delete', res)
     this.setState({
       alert: (
         <SweetAlert
@@ -93,7 +98,9 @@ class SolutionDetail extends React.Component {
         </SweetAlert>
       )
     });
+    this.props.history.push('/admin/solution/');
   }
+
 
   warningWithConfirmMessage = () => {
     this.setState({
@@ -135,7 +142,7 @@ class SolutionDetail extends React.Component {
               <Button 
                 color="primary"
                 onClick={() => {
-                  this.props.history.push(`/admin/edit-solution/${this.props.match.params.id}/`)
+                  this.props.history.push(`/admin/edit-solution/${this.state.id}/`)
                 }}
                 >
                 编辑
@@ -182,4 +189,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(SolutionDetail));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(SolutionDetail)));
