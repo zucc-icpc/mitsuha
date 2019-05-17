@@ -142,8 +142,17 @@ export async function solutionDeleteAPI(id) {
   return res.data;
 }
 
-export async function templateListAPI(userId) {
+export async function templateListAPI() {
+  const res = await axios.get(`api/templates/`);
+  if (res.status !== 200) {
+    throw new Error(`获取模版列表失败`);
+  }
+  return res.data;
+}
+
+export async function templateListByUserIdAPI(userId) {
   const res = await axios.get(`api/templates/?owner=${userId}`);
+  // const res = await axios.get(`api/templates/`);
   if (res.status !== 200) {
     throw new Error(`获取模版列表失败`);
   }
@@ -172,6 +181,14 @@ export async function templateCreateAPI(title, intro, type, file) {
     throw new Error(`创建模版失败`);
   }
   return res.data
+}
+
+export async function templateDeleteAPI(id) {
+  const res = await axios.delete(`api/templates/${id}/`);
+  if (res.status !== 204) {
+    throw new Error(`删除模版失败`);
+  }
+  return res.data;
 }
 
 export async function updateProfileAPI(payload) {
