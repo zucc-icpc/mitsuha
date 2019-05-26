@@ -5,13 +5,6 @@ import PropTypes from "prop-types";
 import withStyles from "@material-ui/core/styles/withStyles";
 
 // core components
-import Quote from "components/Typography/Quote.jsx";
-import Muted from "components/Typography/Muted.jsx";
-import Primary from "components/Typography/Primary.jsx";
-import Info from "components/Typography/Info.jsx";
-import Success from "components/Typography/Success.jsx";
-import Warning from "components/Typography/Warning.jsx";
-import Danger from "components/Typography/Danger.jsx";
 import Heading from "components/Heading/Heading.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -19,8 +12,6 @@ import CardBody from "components/Card/CardBody.jsx";
 import { solutionDetailAPI, solutionDeleteAPI } from "../../utils/api";
 // const ReactMarkdown = require('react-markdown')
 import ReactMarkdown from "react-markdown";
-import MathJax from "@matejmazur/react-mathjax";
-import RemarkMathPlugin from "remark-math";
 import Button from "components/CustomButtons/Button.jsx";
 import { connect } from 'react-redux';
 import { get } from 'lodash';

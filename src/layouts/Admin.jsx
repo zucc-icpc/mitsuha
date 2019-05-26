@@ -18,17 +18,27 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 import routes from "routes.js";
 
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.jsx";
+import asyncComponent from "../components/AsyncComponent/AsyncComponent";
 
 import image from "assets/img/sidebar-2.jpg";
-import logo from "assets/img/logo-white.svg";
-import SolutionDetail from "../views/Solution/SolutionDetail";
-import SolutionCreate from "../views/Solution/SolutionCreate";
-import TemplateCreate from "../views/Template/TemplateCreate";
-import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
-import Profile from "../views/Profile/Profile";
-import ProfileDisplay from "../views/Profile/ProfileDisplay";
-import Solution from "../views/Solution/Solution";
-import SolutionEdit from "../views/Solution/SolutionEdit";
+// import logo from "assets/img/logo-white.svg";
+import logo from "assets/img/icpc_logo.png";
+// import SolutionDetail from "../views/Solution/SolutionDetail";
+// import SolutionCreate from "../views/Solution/SolutionCreate";
+// import TemplateCreate from "../views/Template/TemplateCreate";
+// import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
+// import Profile from "../views/Profile/Profile";
+// import ProfileDisplay from "../views/Profile/ProfileDisplay";
+// import Solution from "../views/Solution/Solution";
+// import SolutionEdit from "../views/Solution/SolutionEdit";
+
+const AsyncSolutionDetail = asyncComponent(() => import("../views/Solution/SolutionDetail"))
+const AsyncSolutionCreate = asyncComponent(() => import("../views/Solution/SolutionCreate"))
+const AsyncTemplateCreate = asyncComponent(() => import("../views/Template/TemplateCreate"))
+const AsyncTemplateDetailPDF = asyncComponent(() => import("../views/Template/TemplateDetailPDF"))
+const AsyncProfile = asyncComponent(() => import("../views/Profile/Profile"))
+const AsyncProfileDisplay = asyncComponent(() => import("../views/Profile/ProfileDisplay"))
+const AsyncSolutionEdit = asyncComponent(() => import("../views/Solution/SolutionEdit"))
 
 var ps;
 
@@ -174,14 +184,14 @@ class Dashboard extends React.Component {
             <div className={classes.content}>
               <div className={classes.container}>
                 <Switch>{this.getRoutes(routes)}</Switch>
-                <Route exact path="/admin/dashboard/" component={Solution}></Route>
-                <Route exact path="/admin/solution/:id/" component={SolutionDetail}></Route>
-                <Route exact path="/admin/create-solution/" component={SolutionCreate}></Route>
-                <Route exact path="/admin/edit-solution/:id/" component={SolutionEdit}></Route>
-                <Route exact path="/admin/template/:id/pdf/" component={TemplateDetailPDF}></Route>
-                <Route exact path="/admin/create-template/" component={TemplateCreate}></Route>
-                <Route exact path="/admin/profile/" component={Profile}></Route>
-                <Route exact path="/admin/member/:id/" component={ProfileDisplay}></Route>
+                <Route exact path="/admin/dashboard/" component={AsyncSolutionDetail}></Route>
+                <Route exact path="/admin/solution/:id/" component={AsyncSolutionDetail}></Route>
+                <Route exact path="/admin/create-solution/" component={AsyncSolutionCreate}></Route>
+                <Route exact path="/admin/edit-solution/:id/" component={AsyncSolutionEdit}></Route>
+                <Route exact path="/admin/template/:id/pdf/" component={AsyncTemplateDetailPDF}></Route>
+                <Route exact path="/admin/create-template/" component={AsyncTemplateCreate}></Route>
+                <Route exact path="/admin/profile/" component={AsyncProfile}></Route>
+                <Route exact path="/admin/member/:id/" component={AsyncProfileDisplay}></Route>
               </div>
             </div>
           ) : (

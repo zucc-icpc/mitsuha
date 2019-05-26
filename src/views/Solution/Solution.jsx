@@ -6,9 +6,6 @@ import ReactTable from "react-table";
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
-import Dvr from "@material-ui/icons/Dvr";
-import Favorite from "@material-ui/icons/Favorite";
-import Close from "@material-ui/icons/Close";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
@@ -17,12 +14,9 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardIcon from "components/Card/CardIcon.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
-import { dataTable } from "variables/general.jsx";
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.jsx";
 import { solutionListAPI } from "../../utils/api"
 import { withRouter } from "react-router-dom";
-import SolutionDetail from "./SolutionDetail";
-import { isNil } from "lodash";
 
 const styles = {
   cardIconTitle: {

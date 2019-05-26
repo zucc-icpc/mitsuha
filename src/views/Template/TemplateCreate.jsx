@@ -8,9 +8,7 @@ import GridItem from "components/Grid/GridItem.jsx";
 
 import Step1 from "./TemplateCreateSteps/Step1.jsx"
 import Step2 from "./TemplateCreateSteps/Step2.jsx"
-import Step3 from "./TemplateCreateSteps/Step3.jsx"
 import { templateCreateAPI } from "../../utils/api.js";
-import axios from "axios";
 
 class TemplateCreate extends React.Component {
   handleSubmit = async (e) => {

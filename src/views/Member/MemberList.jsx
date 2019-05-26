@@ -2,9 +2,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 
-// react component used to create sweet alerts
-import SweetAlert from "react-bootstrap-sweetalert";
-
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import Divider from '@material-ui/core/Divider';
@@ -22,7 +19,7 @@ import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweet
 import { isNil } from "lodash";
 import defaultImage from "assets/img/placeholder.jpg";
 
-import { templateListAPI, memberListAPI } from "../../utils/api"
+import { memberListAPI } from "../../utils/api"
 class MemberList extends React.Component {
   constructor(props) {
     super(props);

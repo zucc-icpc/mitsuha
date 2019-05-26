@@ -23,7 +23,6 @@ import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweet
 import { templateListAPI, templateListByUserIdAPI, templateDeleteAPI } from "../../utils/api"
 import { connect } from 'react-redux'
 import { isNil, get } from "lodash"
-import buttonStyle from "assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx";
 
 class TemplateList extends React.Component {
   constructor(props) {

@@ -1,11 +1,5 @@
 import React from "react";
 
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
-import AssignmentInd from "@material-ui/icons/AssignmentInd";
-
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -13,16 +7,10 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
-import PictureUpload from "components/CustomUpload/PictureUpload.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Button from "components/CustomButtons/Button.jsx";
-// import defaultImage from "assets/img/default-avatar.png";
-import defaultImage from "assets/img/placeholder.jpg";
 import { updateProfileAPI, profileAPI } from "../../utils/api";
 import { isNil, get } from 'lodash';
-import AvatarEditor from 'react-avatar-editor'
-import Modal from '@material-ui/core/Modal';
-import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
 
 const style = theme => ({

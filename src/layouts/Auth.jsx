@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
+import asyncComponent from "../components/AsyncComponent/AsyncComponent";
 // core components
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
@@ -14,8 +15,11 @@ import login from "assets/img/login.jpeg";
 import lock from "assets/img/lock.jpeg";
 import error from "assets/img/clint-mckoy.jpg";
 import pricing from "assets/img/bg-pricing.jpeg";
-import LoginPage from "views/Pages/LoginPage.jsx";
-import RegisterPage from "views/Pages/RegisterPage.jsx";
+
+// import LoginPage from "views/Pages/LoginPage.jsx";
+// import RegisterPage from "views/Pages/RegisterPage.jsx";
+const AsyncLoginPage = asyncComponent(() => import("views/Pages/LoginPage.jsx"))
+const AsyncRegisterPage = asyncComponent(() => import("views/Pages/RegisterPage.jsx"))
 
 class Pages extends React.Component {
   componentDidMount() {
@@ -78,13 +82,13 @@ class Pages extends React.Component {
       {
         path: "/login-page",
         name: "登录",
-        component: LoginPage,
+        component: AsyncLoginPage,
         layout: "/auth"
       },
       {
         path: "/register-page",
         name: "注册",
-        component: RegisterPage,
+        component: AsyncRegisterPage,
         layout: "/auth"
       },
     ]
