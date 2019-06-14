@@ -17,7 +17,7 @@ class TemplateCreate extends React.Component {
     const type = e.step2.selected
     const file = e.step2.files[0]
     await templateCreateAPI(title, intro, type, file)
-    this.props.history.push('/admin/template')
+    this.props.history.push('/template')
   }
 
   render() {

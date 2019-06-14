@@ -10,15 +10,17 @@ import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
 import { solutionDetailAPI, solutionDeleteAPI } from "../../utils/api";
-// const ReactMarkdown = require('react-markdown')
 import ReactMarkdown from "react-markdown";
 import Button from "components/CustomButtons/Button.jsx";
 import { connect } from 'react-redux';
 import { get } from 'lodash';
-import SweetAlert from "react-bootstrap-sweetalert";
 import buttonStyle from "assets/jss/material-dashboard-pro-react/components/buttonStyle.jsx";
-
+import Disqus from 'disqus-react';
 import { withRouter } from "react-router-dom";
+import SweetAlert from "react-bootstrap-sweetalert/lib/dist/SweetAlert";
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
+const RemarkMathPlugin = require("remark-math");
 
 const style = {
   typo: {
@@ -89,7 +91,7 @@ class SolutionDetail extends React.Component {
         </SweetAlert>
       )
     });
-    this.props.history.push('/admin/solution/');
+    this.props.history.push('/solution/');
   }
 
 
@@ -120,6 +122,25 @@ class SolutionDetail extends React.Component {
 
   render() {
     const { classes } = this.props
+    const devMode = process.env.NODE_ENV === 'development'
+    const disqusShortname = devMode ? 'example' : 'zuccicpc';
+    const disqusConfig = {
+        url: `/solution/${this.state.id}`,
+        identifier: this.state.id,
+        title: this.state.title,
+    };
+    const latex = (a) => String.raw(a).replace("\\`","`")
+    const newProps = {
+      source: this.state.content,
+      escapeHtml: false,
+      plugins: [
+        RemarkMathPlugin,
+      ],
+      renderers: {
+        math: (props) => <BlockMath>{props.value}</BlockMath>,
+        inlineMath: (props) => <InlineMath>{props.value}</InlineMath>,
+      }
+    };
     return (
       <div>
         <Heading
@@ -133,7 +154,7 @@ class SolutionDetail extends React.Component {
               <Button 
                 color="primary"
                 onClick={() => {
-                  this.props.history.push(`/admin/edit-solution/${this.state.id}/`)
+                  this.props.history.push(`/edit-solution/${this.state.id}/`)
                 }}
                 >
                 编辑
@@ -151,18 +172,12 @@ class SolutionDetail extends React.Component {
         {this.state.alert}
         <Card>
           <CardBody>
-          <div className={classes.typo}>
-            {/* <div className={props.classes.note}>Paragraph</div> */}
-            {/* <p>
-              {this.state.content}
-            </p> */}
-              <ReactMarkdown 
-                source={this.state.content}
-                escapeHtml={false}
-              />
-          </div>
+            <div className={classes.typo}>
+              <ReactMarkdown {...newProps} />
+            </div>
           </CardBody>
         </Card>
+        <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
       </div>
     );
   }

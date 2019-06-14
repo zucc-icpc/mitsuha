@@ -15,28 +15,28 @@ const AsyncHonor = asyncComponent(() => import("./views/Honor/Honor.jsx"))
 
 var dashRoutes = [
   {
-    path: "/solution",
+    path: "/solution/",
     name: "题解",
     rtlName: "题解",
     icon: DashboardIcon,
     component: AsyncSolution,
-    layout: "/admin"
+    layout: ""
   },
   {
-    path: "/template",
+    path: "/template/",
     name: "模版",
     rtlName: "模版",
     icon: GridOn,
     component: AsyncTemplateList,
-    layout: "/admin"
+    layout: ""
   },
   {
-    path: "/member",
+    path: "/member/",
     name: "成员",
     rtlName: "成员",
     icon: People,
     component: AsyncMemberList,
-    layout: "/admin"
+    layout: ""
   },
   {
     path: "/honor",
@@ -44,7 +44,7 @@ var dashRoutes = [
     rtlName: "故事",
     icon: Book,
     component: AsyncHonor,
-    layout: "/admin"
+    layout: ""
   },
 ];
 export default dashRoutes;

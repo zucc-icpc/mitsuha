@@ -2,9 +2,10 @@
 import * as React from "react";
 import * as ReactMarkdown from "react-markdown";
 import MathJax from "@matejmazur/react-mathjax";
-import RemarkMathPlugin from "remark-math";
+const RemarkMathPlugin = require("remark-math");
 
 export const MarkdownRender = (props) => {
+  console.log(props)
   const newProps = {
     ...props,
     plugins: [
@@ -12,8 +13,8 @@ export const MarkdownRender = (props) => {
     ],
     renderers: {
       ...props.renderers,
-      math: (props) => <MathJax.Node>{props.value}</MathJax.Node>,
-      inlineMath: (props) => <MathJax.Node inline>{props.value}</MathJax.Node>,
+      math: (props) => <MathJax.Node>{props.source}</MathJax.Node>,
+      inlineMath: (props) => <MathJax.Node inline>{props.source}</MathJax.Node>,
     }
   };
   return (

@@ -108,7 +108,7 @@ class SolutionCreate extends React.Component {
     if (this.isValidated()) {
       const { content } = this.state
       await solutionUpdateAPI(this.props.match.params.id, content);
-      this.props.history.push(`/admin/solution/${this.props.match.params.id}`);
+      this.props.history.push(`/solution/${this.props.match.params.id}`);
     }
   }
 

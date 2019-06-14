@@ -10,11 +10,11 @@ import asyncComponent from "../components/AsyncComponent/AsyncComponent";
 import AuthNavbar from "components/Navbars/AuthNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import pagesStyle from "assets/jss/material-dashboard-pro-react/layouts/authStyle.jsx";
-import register from "assets/img/register.jpeg";
-import login from "assets/img/login.jpeg";
-import lock from "assets/img/lock.jpeg";
-import error from "assets/img/clint-mckoy.jpg";
-import pricing from "assets/img/bg-pricing.jpeg";
+// import register from "assets/img/register.jpeg";
+// import login from "assets/img/login.jpeg";
+// import lock from "assets/img/lock.jpeg";
+// import error from "assets/img/clint-mckoy.jpg";
+// import pricing from "assets/img/bg-pricing.jpeg";
 
 // import LoginPage from "views/Pages/LoginPage.jsx";
 // import RegisterPage from "views/Pages/RegisterPage.jsx";
@@ -44,19 +44,19 @@ class Pages extends React.Component {
     });
   };
   getBgImage = () => {
-    if (window.location.pathname.indexOf("/auth/register-page") !== -1) {
-      return register;
-    } else if (window.location.pathname.indexOf("/auth/login-page") !== -1) {
-      return login;
-    } else if (window.location.pathname.indexOf("/auth/pricing-page") !== -1) {
-      return pricing;
-    } else if (
-      window.location.pathname.indexOf("/auth/lock-screen-page") !== -1
-    ) {
-      return lock;
-    } else if (window.location.pathname.indexOf("/auth/error-page") !== -1) {
-      return error;
-    }
+    // if (window.location.pathname.indexOf("/auth/register-page") !== -1) {
+    //   return register;
+    // } else if (window.location.pathname.indexOf("/auth/login-page") !== -1) {
+    //   return login;
+    // } else if (window.location.pathname.indexOf("/auth/pricing-page") !== -1) {
+    //   return pricing;
+    // } else if (
+    //   window.location.pathname.indexOf("/auth/lock-screen-page") !== -1
+    // ) {
+    //   return lock;
+    // } else if (window.location.pathname.indexOf("/auth/error-page") !== -1) {
+    //   return error;
+    // }
   };
   getActiveRoute = routes => {
     let activeRoute = "Default Brand Text";
@@ -98,7 +98,7 @@ class Pages extends React.Component {
         <div className={classes.wrapper} ref="wrapper">
           <div
             className={classes.fullPage}
-            style={{ backgroundImage: "url(" + this.getBgImage() + ")" }}
+            // style={{ backgroundImage: "url(" + this.getBgImage() + ")" }}
           >
             <Switch>{this.getRoutes(routes)}</Switch>
             <Footer white />

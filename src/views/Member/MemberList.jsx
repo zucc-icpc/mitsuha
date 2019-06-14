@@ -48,11 +48,11 @@ class MemberList extends React.Component {
   }
 
   handleOnClick = (id) => {
-    this.props.history.push(`/admin/member/${id}/`)
+    this.props.history.push(`/member/${id}/`)
   }
   
   handleCreate = () => {
-    this.props.history.push("/admin/create-template/")
+    this.props.history.push("/create-template/")
   }
 
   isNilOrEmpty = (s) => {

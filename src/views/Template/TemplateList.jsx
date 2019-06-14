@@ -40,7 +40,6 @@ class TemplateList extends React.Component {
       data
     })
   }
-
   handleOnClick = (id, type, pdf, word) => {
     if (type === 'pdf') {
       window.open(pdf)
@@ -49,12 +48,12 @@ class TemplateList extends React.Component {
       window.open(word)
       // window.open(`http://view.officeapps.live.com/op/view.aspx?src=${pdf}`)
     } else {
-      this.props.history.push(`/admin/template/${id}/code/`)
+      this.props.history.push(`/template/${id}/code/`)
     }
   }
   
   handleCreate = () => {
-    this.props.history.push("/admin/create-template/")
+    this.props.history.push("/create-template/")
   }
 
   getMyTemplates = async () => {

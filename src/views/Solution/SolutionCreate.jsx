@@ -121,7 +121,7 @@ class SolutionCreate extends React.Component {
     if (this.isValidated()) {
       const { title, oj, pid, content } = this.state
       await solutionCreateAPI(title, oj, pid, content);
-      this.props.history.push('/admin/solution/');
+      this.props.history.push('/solution/');
     }
   }
 

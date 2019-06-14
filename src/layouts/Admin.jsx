@@ -13,7 +13,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-import FixedPlugin from "components/FixedPlugin/FixedPlugin.jsx";
 
 import routes from "routes.js";
 
@@ -32,6 +31,7 @@ import logo from "assets/img/icpc_logo.png";
 // import Solution from "../views/Solution/Solution";
 // import SolutionEdit from "../views/Solution/SolutionEdit";
 
+const AsyncSolution = asyncComponent(() => import("../views/Solution/Solution.jsx"))
 const AsyncSolutionDetail = asyncComponent(() => import("../views/Solution/SolutionDetail"))
 const AsyncSolutionCreate = asyncComponent(() => import("../views/Solution/SolutionCreate"))
 const AsyncTemplateCreate = asyncComponent(() => import("../views/Template/TemplateCreate"))
@@ -125,7 +125,7 @@ class Dashboard extends React.Component {
       if (prop.collapse) {
         return this.getRoutes(prop.views);
       }
-      if (prop.layout === "/admin") {
+      if (prop.layout === "") {
         return (
           <Route
             exact
@@ -184,14 +184,14 @@ class Dashboard extends React.Component {
             <div className={classes.content}>
               <div className={classes.container}>
                 <Switch>{this.getRoutes(routes)}</Switch>
-                <Route exact path="/admin/dashboard/" component={AsyncSolutionDetail}></Route>
-                <Route exact path="/admin/solution/:id/" component={AsyncSolutionDetail}></Route>
-                <Route exact path="/admin/create-solution/" component={AsyncSolutionCreate}></Route>
-                <Route exact path="/admin/edit-solution/:id/" component={AsyncSolutionEdit}></Route>
-                <Route exact path="/admin/template/:id/pdf/" component={AsyncTemplateDetailPDF}></Route>
-                <Route exact path="/admin/create-template/" component={AsyncTemplateCreate}></Route>
-                <Route exact path="/admin/profile/" component={AsyncProfile}></Route>
-                <Route exact path="/admin/member/:id/" component={AsyncProfileDisplay}></Route>
+                <Route exact path="/" component={AsyncSolution}></Route>
+                <Route exact path="/solution/:id/" component={AsyncSolutionDetail}></Route>
+                <Route exact path="/create-solution/" component={AsyncSolutionCreate}></Route>
+                <Route exact path="/edit-solution/:id/" component={AsyncSolutionEdit}></Route>
+                <Route exact path="/template/:id/pdf/" component={AsyncTemplateDetailPDF}></Route>
+                <Route exact path="/create-template/" component={AsyncTemplateCreate}></Route>
+                <Route exact path="/profile/" component={AsyncProfile}></Route>
+                <Route exact path="/member/:id/" component={AsyncProfileDisplay}></Route>
               </div>
             </div>
           ) : (
@@ -201,7 +201,7 @@ class Dashboard extends React.Component {
           )}
           
           {this.getRoute() ? <Footer fluid /> : null}
-          <FixedPlugin
+          {/* <FixedPlugin
             handleImageClick={this.handleImageClick}
             handleColorClick={this.handleColorClick}
             handleBgColorClick={this.handleBgColorClick}
@@ -213,7 +213,7 @@ class Dashboard extends React.Component {
             fixedClasses={this.state.fixedClasses}
             sidebarMinimize={this.sidebarMinimize.bind(this)}
             miniActive={this.state.miniActive}
-          />
+          /> */}
         </div>
       </div>
     );

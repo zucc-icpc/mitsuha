@@ -81,7 +81,7 @@ class Solution extends React.Component {
                   onClick: e => {
                     // history.push
                     console.log(state, rowInfo, column, instance)
-                    this.props.history.push(`/admin/solution/${rowInfo.original.id}/`)
+                    this.props.history.push(`/solution/${rowInfo.original.id}/`)
                   }
                 })}
                 columns={[
@@ -119,7 +119,7 @@ class Solution extends React.Component {
           <Button 
             color="primary"
             onClick={() => {
-              this.props.history.push('/admin/create-solution/')
+              this.props.history.push('/create-solution/')
             }}
           >
             新建题解
