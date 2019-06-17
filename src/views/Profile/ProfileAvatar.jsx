@@ -8,7 +8,7 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import defaultImage from "assets/img/placeholder.jpg";
-import {  updateAvaterAPI } from "../../utils/api";
+import {  updateAvaterAPI, baseUrl } from "../../utils/api";
 import { isNil, get } from 'lodash';
 import AvatarEditor from 'react-avatar-editor'
 import Slider from '@material-ui/lab/Slider';
@@ -79,7 +79,7 @@ class ProfileAvatar extends React.Component {
         const file = new File([avatar], `avatar-${id}-${new Date().getTime()}.png`)
         console.log(file)
         const data = await updateAvaterAPI(id, file)
-        this.props.updataAvatar(data.avatar)
+        this.props.updataAvatar(data.avatar, baseUrl + data.avatar_thumb)
       })
     }
   }
@@ -155,7 +155,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updataAvatar: (avatar) => dispatch(updateUser({avatar}))
+  updataAvatar: (avatar, avatar_thumb) => dispatch(updateUser({avatar, avatar_thumb}))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ProfileAvatar));

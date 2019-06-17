@@ -183,7 +183,7 @@ class ProfileBasic extends React.Component {
           <div className="picture-container">
           <div className="picture">
             <img
-              src={isNil(this.props.avatar) ? defaultImage : this.props.avatar}
+              src={isNil(this.props.avatar_thumb) ? defaultImage : this.props.avatar_thumb}
               className="picture-src"
               alt="..."
             />
@@ -365,7 +365,7 @@ class ProfileBasic extends React.Component {
 
 const mapStateToProps = state => ({
   id: get(state, 'user.id'),
-  avatar: get(state, 'user.avatar'),
+  avatar_thumb: get(state, 'user.avatar_thumb'),
 })
 
 const mapDispatchToProps = dispatch => ({

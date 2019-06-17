@@ -39,7 +39,7 @@ var dashRoutes = [
     layout: ""
   },
   {
-    path: "/honor",
+    path: "/honor/",
     name: "故事",
     rtlName: "故事",
     icon: Book,

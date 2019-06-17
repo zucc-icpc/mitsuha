@@ -19,7 +19,7 @@ import sweetAlertStyle from "assets/jss/material-dashboard-pro-react/views/sweet
 import { isNil } from "lodash";
 import defaultImage from "assets/img/placeholder.jpg";
 
-import { memberListAPI } from "../../utils/api"
+import { memberListAPI, baseUrl } from "../../utils/api"
 class MemberList extends React.Component {
   constructor(props) {
     super(props);
@@ -88,7 +88,7 @@ class MemberList extends React.Component {
                 <GridContainer>
                   {
                     data[item].map((item, key) => {
-                      const avatar = item.avatar
+                      const avatar = baseUrl + item.avatar_thumb
                       return (
                         <GridItem xs={12} sm={12} md={3}>
                           <Card profile>

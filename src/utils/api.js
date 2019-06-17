@@ -1,6 +1,6 @@
 import axios from "axios";
 import toastr from "toastr";
-import { isNil } from "lodash";
+import { isNil, get } from "lodash";
 
 toastr.options = {
   "closeButton": false,
@@ -21,7 +21,7 @@ toastr.options = {
 }
 
 const devMode = process.env.NODE_ENV === 'development'
-const baseUrl = devMode ? 'http://localhost:8000' : 'http://47.100.57.37:8000'
+export const baseUrl = devMode ? 'http://localhost:8000' : 'http://47.100.57.37:8000'
 const protocol = devMode ? 'http' : 'https'
 
 axios.defaults.baseURL = baseUrl
@@ -36,16 +36,22 @@ axios.interceptors.request.use(config=> {
 axios.interceptors.response.use((res) => {
   return res
 }, async (error) => {
-  if (error.response.status === 401) {
-    toastr.error('您已经登出，刷新后请重新进行登录操作')
-  } else if (error.response.status === 403) {
-    toastr.error('您无权进行此操作')
-  } else if (error.response.status === 500) {
-    toastr.error('服务器内部错误')
-  } else if (error.response.status === 502) {
-    toastr.error('网络不稳定，请稍后再试')
+  const status = get(error, ['response', 'status'], 0)
+  switch(status) {
+    case 401:
+      toastr.error('您已经登出，刷新后请重新进行登录操作')
+      break
+    case 403:
+      toastr.warning('账号已经登出')
+      break
+    case 500:
+      toastr.error('服务器内部错误')
+      break
+    case 502:
+      toastr.error('网络不稳定，请稍后再试')
+      break
   }
-  return Promise.reject(error)
+  // return Promise.reject(error)
 })
 
 export async function loginAPI(username, password) {

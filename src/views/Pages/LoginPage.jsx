@@ -72,7 +72,7 @@ class LoginPage extends React.Component {
   render() {
     const { classes, isLogin } = this.props;
     if (isLogin === true) {
-      this.props.history.replace("/admin/dashboard")
+      this.props.history.push("/")
     }
     return (
       <div className={classes.container}>

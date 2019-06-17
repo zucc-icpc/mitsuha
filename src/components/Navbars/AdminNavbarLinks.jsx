@@ -27,6 +27,8 @@ import Button from "components/CustomButtons/Button.jsx";
 import adminNavbarLinksStyle from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.jsx";
 import { clearCookieAPI } from "../../utils/api";
 
+import { withRouter } from "react-router-dom";
+
 class HeaderLinks extends React.Component {
   state = {
     open: false,
@@ -48,10 +50,9 @@ class HeaderLinks extends React.Component {
 
   handleLogout = async () => {
     await clearCookieAPI()
-    this.setState({
-      isLogout: true
-    })
+    this.props.history.push('/auth/login-page/');
   }
+  
   render() {
     const { classes, rtlActive } = this.props;
     const { open, isLogout } = this.state;
@@ -261,4 +262,5 @@ HeaderLinks.propTypes = {
   rtlActive: PropTypes.bool
 };
 
-export default withStyles(adminNavbarLinksStyle)(HeaderLinks);
+
+export default withRouter(withStyles(adminNavbarLinksStyle)(HeaderLinks));

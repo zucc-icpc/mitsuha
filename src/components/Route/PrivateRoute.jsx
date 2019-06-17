@@ -7,9 +7,9 @@ import {
 } from "react-router-dom";
 import { isNil, get } from "lodash"
 import { connect } from 'react-redux'
-import toastr from "toastr";
 import Progress from "../Progress/Progress";
 import { verifyUser } from "../../utils/business";
+import { withRouter } from "react-router-dom";
 
 class PrivateRoute extends React.Component {
   constructor (props) {
@@ -27,18 +27,25 @@ class PrivateRoute extends React.Component {
       ...state,
       isLoading: true
     }))
-    const data = await verifyUser()
-    if (data.isLogin) {
-      isAuthed = true
-    }
-    if (!isAuthed) {
-      toastr.warning('账号信息过期，请重新登录')
-    }
-    this.setState(state => ({
-      ...state,
-      isAuthed,
-      isLoading: false,
-    }))
+    verifyUser()
+      .then(data => {
+        if (data.isLogin) {
+          isAuthed = true
+        }
+        this.setState(state => ({
+          ...state,
+          isAuthed,
+          isLoading: false,
+        }))
+      })
+      .catch(error => {
+        this.setState(state => ({
+          ...state,
+          isAuthed: false,
+          isLoading: false,
+        }))
+        console.log(error)
+      })
   }
 
   UNSAFE_componentWillMount = async () => {
@@ -86,4 +93,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PrivateRoute))

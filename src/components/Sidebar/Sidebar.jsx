@@ -383,7 +383,7 @@ class Sidebar extends React.Component {
               <List className={classes.list + " " + classes.collapseList}>
                 <ListItem className={classes.collapseItem}>
                   <NavLink
-                    to="/admin/profile/"
+                    to="/profile/"
                     className={
                       classes.itemLink + " " + classes.userCollapseLinks
                     }
@@ -545,7 +545,7 @@ Sidebar.propTypes = {
 const mapStateToProps = state => ({
   name: get(state, 'user.name'),
   username:  get(state, 'user.username'),
-  avatar: get(state, 'user.avatar'),
+  avatar: get(state, 'user.avatar_thumb'),
 })
 
 const mapDispatchToProps = dispatch => ({
