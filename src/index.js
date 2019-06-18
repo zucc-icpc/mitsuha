@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { createBrowserHistory } from "history";
-import { Router, Route, Switch, Redirect } from "react-router-dom";
+import { Router, Route, Switch } from "react-router-dom";
 import asyncComponent from "./components/AsyncComponent/AsyncComponent";
 import "assets/scss/material-dashboard-pro-react.scss?v=1.5.0";
 import PrivateRoute from "./components/Route/PrivateRoute";
@@ -14,8 +13,6 @@ import rootReducer from './store/reducers'
 // import AdminLayout from "layouts/Admin.jsx";
 const AsyncAuthLayout = asyncComponent(() => import("layouts/Auth.jsx"))
 const AsyncAdminLayout = asyncComponent(() => import("layouts/Admin.jsx"))
-
-
 
 export const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 

@@ -13,23 +13,10 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import AdminNavbar from "components/Navbars/AdminNavbar.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
-
 import routes from "routes.js";
-
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.jsx";
 import asyncComponent from "../components/AsyncComponent/AsyncComponent";
-
-import image from "assets/img/sidebar-2.jpg";
-// import logo from "assets/img/logo-white.svg";
 import logo from "assets/img/icpc_logo.png";
-// import SolutionDetail from "../views/Solution/SolutionDetail";
-// import SolutionCreate from "../views/Solution/SolutionCreate";
-// import TemplateCreate from "../views/Template/TemplateCreate";
-// import TemplateDetailPDF from "../views/Template/TemplateDetailPDF";
-// import Profile from "../views/Profile/Profile";
-// import ProfileDisplay from "../views/Profile/ProfileDisplay";
-// import Solution from "../views/Solution/Solution";
-// import SolutionEdit from "../views/Solution/SolutionEdit";
 
 const AsyncSolution = asyncComponent(() => import("../views/Solution/Solution.jsx"))
 const AsyncSolutionDetail = asyncComponent(() => import("../views/Solution/SolutionDetail"))
@@ -201,19 +188,6 @@ class Dashboard extends React.Component {
           )}
           
           {this.getRoute() ? <Footer fluid /> : null}
-          {/* <FixedPlugin
-            handleImageClick={this.handleImageClick}
-            handleColorClick={this.handleColorClick}
-            handleBgColorClick={this.handleBgColorClick}
-            handleHasImage={this.handleHasImage}
-            color={this.state["color"]}
-            bgColor={this.state["bgColor"]}
-            bgImage={this.state["image"]}
-            handleFixedClick={this.handleFixedClick}
-            fixedClasses={this.state.fixedClasses}
-            sidebarMinimize={this.sidebarMinimize.bind(this)}
-            miniActive={this.state.miniActive}
-          /> */}
         </div>
       </div>
     );
