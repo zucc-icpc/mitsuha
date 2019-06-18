@@ -11,76 +11,32 @@ import Progress from "../Progress/Progress";
 import { verifyUser } from "../../utils/business";
 import { withRouter } from "react-router-dom";
 
+
 class PrivateRoute extends React.Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      isLoading: true, 
-      isAuthed: false  
-    }
-  }
 
-  checkAuth = async () => {
-    let isAuthed = false
-    const { isLogin } = this.props
-    this.setState(state => ({
-      ...state,
-      isLoading: true
-    }))
-    verifyUser()
-      .then(data => {
-        if (data.isLogin) {
-          isAuthed = true
-        }
-        this.setState(state => ({
-          ...state,
-          isAuthed,
-          isLoading: false,
-        }))
-      })
-      .catch(error => {
-        this.setState(state => ({
-          ...state,
-          isAuthed: false,
-          isLoading: false,
-        }))
-        console.log(error)
-      })
+  componentDidMount = async() => {
+    await verifyUser()
   }
-
-  UNSAFE_componentWillMount = async () => {
-    await this.checkAuth()
-  }
-
-
-  UNSAFE_componentWillReceiveProps = async (nextProps) => {
-    if (nextProps.location.pathname !== this.props.location.pathname) {
-      await this.checkAuth()
-    }
-  }
-  
 
   render() {
     const { component: Component, ...rest } = this.props
-    const { isLoading, isAuthed } = this.state
+    const isLogin = this.props.isLogin
     return (
-      isLoading === true
-        ? <Progress></Progress>
-        : <Route
-            {...rest}
-            render={props =>
-              isAuthed ? (
-                <Component {...props} />
-              ) : (
-                <Redirect
-                  to={{
-                    pathname: "/auth/login-page",
-                    state: { from: props.location }
-                  }}
-                />
-              )
-            }
-          />
+      <Route
+        {...rest}
+        render={props =>
+          isLogin ? (
+            <Component {...props} />
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/auth/login-page",
+                state: { from: props.location }
+              }}
+            />
+          )
+        }
+      />
     );
   }
   

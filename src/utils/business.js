@@ -1,8 +1,9 @@
 /* eslint-disable no-console */
-import { loginAPI, verifyUserAPI, getUserAPI, baseUrl } from "./api"
+import { loginAPI, verifyUserAPI, getUserAPI, profileAPI } from "./api"
 import { store } from "../index.js"
 import { updateUser } from "../store/actions";
 import { isNil } from "lodash";
+import * as Cookies from 'js-cookie'
 
 export async function login(username, password) {
   const data = await loginAPI(username, password);
@@ -16,7 +17,7 @@ export async function login(username, password) {
     name,
     username,
     avatar,
-    avatar_thumb: baseUrl + avatar_thumb,
+    avatar_thumb,
     type,
     isStaff,
     isLogin: true,
@@ -24,6 +25,23 @@ export async function login(username, password) {
   store.dispatch(updateUser(payload))
 }
 
+export function logout() {
+  const cookies = Cookies.get()
+  console.log(cookies)
+  Object.keys(cookies).forEach(name => {
+    Cookies.remove(name)
+  }) 
+  const payload = {
+    isLogin: false,
+  }
+  store.dispatch(updateUser(payload))
+}
+
+/**
+ * 验证用户的token是否合法
+ * 如果合法更新redux中的用户信息，并返回一个对象，其中isLogin为true
+ * 否则返回一个对象，其中isLogin为false
+ */
 export async function verifyUser() {
   let data
   try {
@@ -40,14 +58,14 @@ export async function verifyUser() {
       isLogin: false
     }
   }
-  const userInfo = await getUserAPI(data.id)
+  const userInfo = await profileAPI(data.id)
   const {id, username, is_staff, type, avatar, name, avatar_thumb} = userInfo
   const payload = {
     id,
     name,
     username,
     avatar,
-    avatar_thumb: baseUrl + avatar_thumb,
+    avatar_thumb,
     type,
     isStaff: is_staff,
     isLogin: true,

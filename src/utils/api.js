@@ -42,7 +42,7 @@ axios.interceptors.response.use((res) => {
       toastr.error('您已经登出，刷新后请重新进行登录操作')
       break
     case 403:
-      toastr.warning('账号已经登出')
+      toastr.error('403错误')
       break
     case 500:
       toastr.error('服务器内部错误')
@@ -257,14 +257,6 @@ export async function verifyUserAPI() {
   const res = await axios.get(`api/verify_user/`)
   if (res.status !== 200) {
     throw new Error(`验证用户失败`);
-  }
-  return res.data;
-}
-
-export async function clearCookieAPI() {
-  const res = await axios.post(`clear-token/`)
-  if (res.status !== 200) {
-    throw new Error(`设置cookie过期失败`);
   }
   return res.data;
 }

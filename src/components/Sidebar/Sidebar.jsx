@@ -21,7 +21,6 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.jsx";
 
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.jsx";
 
-import avatar from "assets/img/faces/avatar.jpg";
 import defaultImage from "assets/img/placeholder.jpg";
 import { isNil, get } from "lodash"
 import { connect } from 'react-redux'
@@ -353,7 +352,7 @@ class Sidebar extends React.Component {
     var user = (
       <div className={userWrapperClass}>
         <div className={photo}>
-          <img src={isNil(this.props.avatar) ? defaultImage : this.props.avatar} className={classes.avatarImg} alt="..." />
+          <img src={isNil(this.props.avatar_thumb) ? defaultImage : this.props.avatar_thumb} className={classes.avatarImg} alt="..." />
         </div>
         <List className={classes.list}>
           <ListItem className={classes.item + " " + classes.userItem}>
@@ -545,7 +544,7 @@ Sidebar.propTypes = {
 const mapStateToProps = state => ({
   name: get(state, 'user.name'),
   username:  get(state, 'user.username'),
-  avatar: get(state, 'user.avatar_thumb'),
+  avatar_thumb: get(state, 'user.avatar_thumb'),
 })
 
 const mapDispatchToProps = dispatch => ({

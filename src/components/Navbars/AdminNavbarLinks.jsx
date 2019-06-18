@@ -28,6 +28,7 @@ import adminNavbarLinksStyle from "assets/jss/material-dashboard-pro-react/compo
 import { clearCookieAPI } from "../../utils/api";
 
 import { withRouter } from "react-router-dom";
+import { logout } from "../../utils/business";
 
 class HeaderLinks extends React.Component {
   state = {
@@ -41,15 +42,8 @@ class HeaderLinks extends React.Component {
     this.setState({ open: false });
   };
 
-  // getCookie = (name) => {
-  //   let arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
-  //   if (arr != null) return unescape(arr[2]); 
-  //   return null;
-  // }
-
-
   handleLogout = async () => {
-    await clearCookieAPI()
+    logout()
     this.props.history.push('/auth/login-page/');
   }
   
@@ -80,151 +74,7 @@ class HeaderLinks extends React.Component {
     });
     return (
       <div className={wrapper}>
-        {/* <CustomInput
-          rtlActive={rtlActive}
-          formControlProps={{
-            className: classes.top + " " + classes.search
-          }}
-          inputProps={{
-            placeholder: rtlActive ? "بحث" : "Search",
-            inputProps: {
-              "aria-label": rtlActive ? "بحث" : "Search",
-              className: classes.searchInput
-            }
-          }}
-        />
-        <Button
-          color="white"
-          aria-label="edit"
-          justIcon
-          round
-          className={searchButton}
-        >
-          <Search
-            className={classes.headerLinksSvg + " " + classes.searchIcon}
-          />
-        </Button> */}
-        {/* <Button
-          color="transparent"
-          simple
-          aria-label="Dashboard"
-          justIcon
-          className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
-          muiClasses={{
-            label: rtlActive ? classes.labelRTL : ""
-          }}
-        >
-          <Dashboard
-            className={
-              classes.headerLinksSvg +
-              " " +
-              (rtlActive
-                ? classes.links + " " + classes.linksRTL
-                : classes.links)
-            }
-          />
-          <Hidden mdUp implementation="css">
-            <span className={classes.linkText}>
-              {rtlActive ? "لوحة القيادة" : "Dashboard"}
-            </span>
-          </Hidden>
-        </Button> */}
-        {/* <div className={managerClasses}>
-          <Button
-            color="transparent"
-            justIcon
-            aria-label="Notifications"
-            aria-owns={open ? "menu-list" : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-            className={rtlActive ? classes.buttonLinkRTL : classes.buttonLink}
-            muiClasses={{
-              label: rtlActive ? classes.labelRTL : ""
-            }}
-            buttonRef={node => {
-              this.anchorEl = node;
-            }}
-          >
-            <Notifications
-              className={
-                classes.headerLinksSvg +
-                " " +
-                (rtlActive
-                  ? classes.links + " " + classes.linksRTL
-                  : classes.links)
-              }
-            />
-            <span className={classes.notifications}>5</span>
-            <Hidden mdUp implementation="css">
-              <span onClick={this.handleClick} className={classes.linkText}>
-                {rtlActive ? "إعلام" : "Notification"}
-              </span>
-            </Hidden>
-          </Button>
-          <Popper
-            open={open}
-            anchorEl={this.anchorEl}
-            transition
-            disablePortal
-            placement="bottom"
-            className={classNames({
-              [classes.popperClose]: !open,
-              [classes.pooperResponsive]: true,
-              [classes.pooperNav]: true
-            })}
-          >
-            {({ TransitionProps, placement }) => (
-              <Grow
-                {...TransitionProps}
-                id="menu-list"
-                style={{ transformOrigin: "0 0 0" }}
-              >
-                <Paper className={classes.dropdown}>
-                  <ClickAwayListener onClickAway={this.handleClose}>
-                    <MenuList role="menu">
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        {rtlActive
-                          ? "إجلاء أوزار الأسيوي حين بل, كما"
-                          : "Mike John responded to your email"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        {rtlActive
-                          ? "شعار إعلان الأرضية قد ذلك"
-                          : "You have 5 new tasks"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        {rtlActive
-                          ? "ثمّة الخاصّة و على. مع جيما"
-                          : "You're now friend with Andrew"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        {rtlActive ? "قد علاقة" : "Another Notification"}
-                      </MenuItem>
-                      <MenuItem
-                        onClick={this.handleClose}
-                        className={dropdownItem}
-                      >
-                        {rtlActive ? "قد فاتّبع" : "Another One"}
-                      </MenuItem>
-                    </MenuList>
-                  </ClickAwayListener>
-                </Paper>
-              </Grow>
-            )}
-          </Popper>
-        </div> */}
+       
         <Button
           // color="transparent"
           size="sm"
@@ -237,20 +87,6 @@ class HeaderLinks extends React.Component {
           onClick={this.handleLogout}
         >
           登出
-          {/* <Person
-            className={
-              classes.headerLinksSvg +
-              " " +
-              (rtlActive
-                ? classes.links + " " + classes.linksRTL
-                : classes.links)
-            }
-          /> */}
-          {/* <Hidden mdUp implementation="css">
-            <span className={classes.linkText}>
-              {rtlActive ? "الملف الشخصي" : "Profile"}
-            </span>
-          </Hidden> */}
         </Button>
       </div>
     );

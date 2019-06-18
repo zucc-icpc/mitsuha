@@ -11,7 +11,7 @@ import CardAvatar from "components/Card/CardAvatar.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import CardFooter from "components/Card/CardFooter.jsx";
 
-import { profileAPI, baseUrl } from "../../utils/api";
+import { profileAPI } from "../../utils/api";
 import { isNil } from "lodash"
 import defaultImage from "assets/img/placeholder.jpg";
 
@@ -69,7 +69,7 @@ class ProfileDisplay extends React.Component {
 
   render() {
     const { classes } = this.props
-    const { level, biography, work, graduate} = this.state
+    const { level, biography, work, graduate, avatar_thumb} = this.state
     let intro = `${level}级`
     if (!this.isNilOrEmpty(work)) {
       intro += ` 就职于${work}`
@@ -77,7 +77,6 @@ class ProfileDisplay extends React.Component {
     if (!this.isNilOrEmpty(graduate)) {
       intro += ` 就读于${graduate}`
     }
-    const avatar_thumb = baseUrl + this.state.avatar_thumb
     return (
       <div>
         <Heading
