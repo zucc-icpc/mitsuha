@@ -50,10 +50,6 @@ class MemberList extends React.Component {
   handleOnClick = (id) => {
     this.props.history.push(`/member/${id}/`)
   }
-  
-  handleCreate = () => {
-    this.props.history.push("/create-template/")
-  }
 
   isNilOrEmpty = (s) => {
     return isNil(s) || s.length === 0
@@ -79,7 +75,7 @@ class MemberList extends React.Component {
               <div>
                 <GridContainer justify="flex-start">
                   <GridItem>
-                      <Button color="primary" size="sm" onClick={this.handleCreate}>
+                      <Button color="primary" size="sm">
                         {item}级
                       </Button>
                   </GridItem>
