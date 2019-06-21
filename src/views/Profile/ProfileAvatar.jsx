@@ -8,7 +8,7 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import defaultImage from "assets/img/placeholder.jpg";
-import {  updateAvaterAPI } from "../../utils/api";
+import {  updateAvaterAPI, profileAPI } from "../../utils/api";
 import { isNil, get } from 'lodash';
 import AvatarEditor from 'react-avatar-editor'
 import Slider from '@material-ui/lab/Slider';
@@ -78,7 +78,8 @@ class ProfileAvatar extends React.Component {
       canvas.toBlob(async (avatar) => {
         const file = new File([avatar], `avatar-${id}-${new Date().getTime()}.png`)
         console.log(file)
-        const data = await updateAvaterAPI(id, file)
+        await updateAvaterAPI(id, file)
+        const data = await profileAPI(id)
         this.props.updataAvatar(data.avatar, data.avatar_thumb)
       })
     }
