@@ -21,7 +21,7 @@ toastr.options = {
 }
 
 const devMode = process.env.NODE_ENV === 'development'
-export const baseUrl = devMode ? 'http://localhost:8000' : 'http://47.100.57.37:8000'
+export const baseUrl = devMode ? 'http://localhost:8000' : 'http://10.66.28.6:8000'
 const protocol = devMode ? 'http' : 'https'
 
 axios.defaults.baseURL = baseUrl
