@@ -111,6 +111,9 @@ class Sidebar extends React.Component {
       if (prop.redirect) {
         return null;
       }
+      if (prop.name === "周报" && this.props.type === "普通用户") {
+        return null;
+      }
       if (prop.collapse) {
         var st = {};
         st[prop["state"]] = !this.state[prop.state];
@@ -545,6 +548,7 @@ const mapStateToProps = state => ({
   name: get(state, 'user.name'),
   username:  get(state, 'user.username'),
   avatar_thumb: get(state, 'user.avatar_thumb'),
+  type: get(state, 'user.type'),
 })
 
 const mapDispatchToProps = dispatch => ({

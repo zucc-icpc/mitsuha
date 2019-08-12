@@ -9,7 +9,7 @@ import Heading from "components/Heading/Heading.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-import { solutionDetailAPI, solutionDeleteAPI } from "../../utils/api";
+import { reportDetailAPI, reportDeleteAPI } from "../../utils/api";
 import ReactMarkdown from "react-markdown";
 import Button from "components/CustomButtons/Button.jsx";
 import { connect } from 'react-redux';
@@ -44,15 +44,16 @@ const style = {
   ...buttonStyle
 };
 
-class SolutionDetail extends React.Component {
+class ReportDetail extends React.Component {
 
   componentDidMount = async () => {
-    const data = await solutionDetailAPI(this.props.match.params.id);
+    const data = await reportDetailAPI(this.props.match.params.id);
     this.setState({
-      content: data["content"],
-      title: data["title"],
-      name: data["name"],
-      owner: data["owner"],
+      content: data['content'],
+      title: data['title'],
+      created: data['created'],
+      owner: data['owner']
+    //   name: data["name"]
     })
   }
 
@@ -61,7 +62,8 @@ class SolutionDetail extends React.Component {
     this.state = {
       content: "",
       title: "",
-      name: "",
+      created: "",
+    //   name: "",
       alert: null,
       id: this.props.match.params.id
     }
@@ -74,7 +76,7 @@ class SolutionDetail extends React.Component {
   }
 
   successDelete = async () => {
-    const res = await solutionDeleteAPI(this.state.id)
+    const res = await reportDeleteAPI(this.state.id)
     console.log('delete', res)
     this.setState({
       alert: (
@@ -92,7 +94,7 @@ class SolutionDetail extends React.Component {
         </SweetAlert>
       )
     });
-    this.props.history.push('/solution/');
+    this.props.history.push('/report/');
   }
 
 
@@ -126,7 +128,7 @@ class SolutionDetail extends React.Component {
     const devMode = process.env.NODE_ENV === 'development'
     const disqusShortname = devMode ? 'example' : 'zuccicpc';
     const disqusConfig = {
-        url: `/solution/${this.state.id}`,
+        url: `/report/${this.state.id}`,
         identifier: this.state.id,
         title: this.state.title,
     };
@@ -147,19 +149,19 @@ class SolutionDetail extends React.Component {
         <Heading
           textAlign="center"
           title={this.state.title}
-          category={`作者：${this.state.name}`}
+          category={`创建时间：${this.state.created}`}
         />
         {
           this.props.username === this.state.owner ? (
             <div>
-              <Button 
+              {/* <Button 
                 color="primary"
                 onClick={() => {
-                  this.props.history.push(`/edit-solution/${this.state.id}/`)
+                  this.props.history.push(`/edit-report/${this.state.id}/`)
                 }}
                 >
                 编辑
-              </Button>
+              </Button> */}
               <Button 
                 color="primary"
                 onClick={this.warningWithConfirmMessage}
@@ -178,13 +180,13 @@ class SolutionDetail extends React.Component {
             </div>
           </CardBody>
         </Card>
-        <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} />
+        {/* <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} /> */}
       </div>
     );
   }
 }
 
-SolutionDetail.propTypes = {
+ReportDetail.propTypes = {
   classes: PropTypes.object.isRequired,
   match: PropTypes.object.isRequired
 };
@@ -196,4 +198,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(SolutionDetail)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ReportDetail)));

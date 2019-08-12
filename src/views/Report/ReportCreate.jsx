@@ -16,23 +16,20 @@ import CardBody from "components/Card/CardBody.jsx";
 
 import regularFormsStyle from "assets/jss/material-dashboard-pro-react/views/regularFormsStyle";
 
-import { solutionCreateAPI } from "../../utils/api"
+import { reportCreateAPI } from "../../utils/api"
 
 import Stackedit from 'stackedit-js';
 import { isNil } from 'lodash';
+import { connect } from 'react-redux';
+import { get } from 'lodash';
 
-class SolutionCreate extends React.Component {
+class ReportCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      content: "",
+      content: "## 本周训练情况\n\n## 本周得失分析\n\n## 下周训练计划",
       contentState: "",
-      title: "",
-      titleState: "",
-      pid: "",
-      pidState: "",
-      oj: "",
-      ojState: "",
+      title: this.props.name + '的周报',
       stackedit: new Stackedit(),
     };
     this.state.stackedit.on('fileChange', (file) => this.handleFileChange(file));
@@ -45,6 +42,7 @@ class SolutionCreate extends React.Component {
         text: this.state.content // and the Markdown content.
       }
     });
+    // window.open('https://stackedit.io/app#')
   }
 
   // handleOnChange = (e) => {
@@ -79,7 +77,7 @@ class SolutionCreate extends React.Component {
     this.setState({ [stateName]: event.target.value });
   }
   isValidated() {
-    const fields = ['content', 'pid', 'title', 'oj']
+    const fields = ['content']
     let successCount = 0;
     fields.forEach(item => {
       const itemState = item + 'State'
@@ -100,16 +98,6 @@ class SolutionCreate extends React.Component {
     return false;
   }
   
-  // validateForm = () => {
-  //   const {title, oj, pid, content} = this.state
-  //   if (this.isEmptyString(title) || 
-  //       this.isEmptyString(oj) || 
-  //       this.isEmptyString(pid) || 
-  //       this.isEmptyString(content)) {
-  //     return false;
-  //   }
-  //   return true;
-  // }
 
   handleFileChange = (file) => {
     this.setState({
@@ -120,9 +108,9 @@ class SolutionCreate extends React.Component {
 
   handleSubmit = async () => {
     if (this.isValidated()) {
-      const { title, oj, pid, content } = this.state
-      await solutionCreateAPI(title, oj, pid, content);
-      this.props.history.push('/solution/');
+      const { title, content } = this.state
+      await reportCreateAPI(title, content);
+      this.props.history.push('/report/');
     }
   }
 
@@ -134,7 +122,7 @@ class SolutionCreate extends React.Component {
           <Card>
             <CardHeader color="primary" text>
               <CardText color="primary">
-                <h4 className={classes.cardTitle}>新建题解</h4>
+                <h4 className={classes.cardTitle}>新建周报</h4>
               </CardText>
             </CardHeader>
             <CardBody>
@@ -147,52 +135,15 @@ class SolutionCreate extends React.Component {
                         标题 <small>(必填)</small>
                       </span>
                     }
-                    success={this.state.titleState === "success"}
-                    error={this.state.titleState === "error"}
+                    // success={this.state.titleState === "success"}
+                    // error={this.state.titleState === "error"}
                     formControlProps={{
                       fullWidth: true
                     }}
                     inputProps={{
+                      disabled: true,
                       value: this.state.title,
-                      onChange: event => this.change(event, "title", "length", 1),
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    id="oj"
-                    labelText={
-                      <span>
-                        OJ <small>(必填)</small>
-                      </span>
-                    }
-                    success={this.state.ojState === "success"}
-                    error={this.state.ojState === "error"}
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      value: this.state.oj,
-                      onChange: event => this.change(event, "oj", "length", 1),
-                    }}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <CustomInput
-                    id="pid"
-                    labelText={
-                      <span>
-                        题目ID <small>(必填)</small>
-                      </span>
-                    }
-                    success={this.state.pidState === "success"}
-                    error={this.state.pidState === "error"}
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    inputProps={{
-                      value: this.state.pid,
-                      onChange: event => this.change(event, "pid", "length", 1),
+                    //   onChange: event => this.change(event, "title", "length", 1),
                     }}
                   />
                 </GridItem>
@@ -240,4 +191,12 @@ class SolutionCreate extends React.Component {
   }
 }
 
-export default withRouter(withStyles(regularFormsStyle)(SolutionCreate));
+const mapStateToProps = state => ({
+  name: get(state, 'user.name'),
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+  
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(regularFormsStyle)(ReportCreate)));
+  

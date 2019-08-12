@@ -65,6 +65,30 @@ axios.interceptors.response.use((res) => {
   // return Promise.reject(error)
 })
 
+async function ListWithPage(page, filtered, sorted, url, queryParams) {
+  let params = {}
+  if (!isNil(filtered)) {
+    filtered.forEach(item => {
+      params[item.id] = item.value
+    })
+  }
+  if (!isNil(sorted) && sorted.length > 0) {
+    const id = sorted[0].id
+    params['ordering'] = sorted[0].desc ? `-${id}` : id
+  }
+  let s = url + `?page=${page}`
+  if (!isNil(queryParams)) {
+    Object.keys(queryParams).forEach(item => {
+      s = s + `&${item}=${queryParams[item]}`
+    })
+    console.log(s)
+  }
+  const res = await axios.get(s, {
+    params
+  })
+  return res.data
+}
+
 export async function loginAPI(username, password) {
     const res = await axios.post('api-token-auth/', {username, password});
     if (!isNil(res.data.error)) {
@@ -97,23 +121,7 @@ export async function getUserAPI(id) {
 }
 
 export async function solutionListAPI(page, filtered, sorted) {
-  let params = {}
-  if (!isNil(filtered)) {
-    filtered.forEach(item => {
-      params[item.id] = item.value
-    })
-  }
-  if (!isNil(sorted) && sorted.length > 0) {
-    const id = sorted[0].id
-    params['ordering'] = sorted[0].desc ? `-${id}` : id
-  }
-  const res = await axios.get(`api/solutions/?page=${page}`, {
-    params
-  });
-  if (res.status !== 200) {
-    throw new Error('获取题解列表失败');
-  }
-  return res.data;
+  return ListWithPage(page, filtered, sorted, 'api/solutions/')
 }
 
 
@@ -277,5 +285,41 @@ export async function honorListAPI() {
   if (res.status !== 200) {
     throw new Error(`获取故事失败`);
   }
+  return res.data;
+}
+
+export async function reportListByUserIdAPI(page, filtered, sorted, userId) {
+  return ListWithPage(page, filtered, sorted, 'api/reports/', {owner: userId})
+}
+
+export async function reportListAPI(page, filtered, sorted) {
+  return ListWithPage(page, filtered, sorted, 'api/reports/')
+}
+
+export async function reportCreateAPI(title, content) {
+  const data = {
+    title,
+    content
+  }
+  const res = await axios.post(`api/reports/`, data)
+  return res.data
+}
+
+export async function reportDetailAPI(id) {
+  const res = await axios.get(`api/reports/${id}`)
+  return res.data
+}
+
+export async function reportUpdateAPI(id, title, content) {
+  const data = {
+    title,
+    content
+  }
+  const res = await axios.patch(`api/reports/${id}`, data)
+  return res.data
+}
+
+export async function reportDeleteAPI(id) {
+  const res = await axios.delete(`api/reports/${id}/`);
   return res.data;
 }

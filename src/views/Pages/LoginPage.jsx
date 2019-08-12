@@ -9,6 +9,7 @@ import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 import Face from "@material-ui/icons/Face";
+import Lock from "@material-ui/icons/Lock";
 // import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 
@@ -144,9 +145,7 @@ class LoginPage extends React.Component {
                     inputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <Icon className={classes.inputAdornmentIcon}>
-                            lock_outline
-                          </Icon>
+                          <Lock className={classes.inputAdornmentIcon} />
                         </InputAdornment>
                       ),
                       value: this.state.password,

@@ -17,6 +17,8 @@ import routes from "routes.js";
 import appStyle from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.jsx";
 import asyncComponent from "../components/AsyncComponent/AsyncComponent";
 import logo from "assets/img/icpc_logo.png";
+import { get } from "lodash";
+import { connect } from 'react-redux'
 
 const AsyncSolution = asyncComponent(() => import("../views/Solution/Solution.jsx"))
 const AsyncSolutionDetail = asyncComponent(() => import("../views/Solution/SolutionDetail"))
@@ -26,6 +28,9 @@ const AsyncTemplateDetailPDF = asyncComponent(() => import("../views/Template/Te
 const AsyncProfile = asyncComponent(() => import("../views/Profile/Profile"))
 const AsyncProfileDisplay = asyncComponent(() => import("../views/Profile/ProfileDisplay"))
 const AsyncSolutionEdit = asyncComponent(() => import("../views/Solution/SolutionEdit"))
+const AsyncReportList = asyncComponent(() => import("../views/Report/ReportList"))
+const AsyncReportDetail = asyncComponent(() => import("../views/Report/ReportDetail"))
+const AsyncReportCreate = asyncComponent(() => import("../views/Report/ReportCreate"))
 
 var ps;
 
@@ -92,6 +97,9 @@ class Dashboard extends React.Component {
   getActiveRoute = routes => {
     let activeRoute = "";
     for (let i = 0; i < routes.length; i++) {
+      if (routes[i].name === "周报" && this.props.userType === "普通用户") {
+        continue
+      }
       if (routes[i].collapse) {
         let collapseActiveRoute = this.getActiveRoute(routes[i].views);
         if (collapseActiveRoute !== activeRoute) {
@@ -111,6 +119,9 @@ class Dashboard extends React.Component {
     return routes.map((prop, key) => {
       if (prop.collapse) {
         return this.getRoutes(prop.views);
+      }
+      if (prop.name === "周报" && this.props.userType === "普通用户") {
+        return null;
       }
       if (prop.layout === "") {
         return (
@@ -179,6 +190,9 @@ class Dashboard extends React.Component {
                 <Route exact path="/create-template/" component={AsyncTemplateCreate}></Route>
                 <Route exact path="/profile/" component={AsyncProfile}></Route>
                 <Route exact path="/member/:id/" component={AsyncProfileDisplay}></Route>
+                <Route exact path="/report/" component={AsyncReportList}></Route>
+                <Route exact path="/report/:id/" component={AsyncReportDetail}></Route>
+                <Route exact path="/create-report/" component={AsyncReportCreate}></Route>
               </div>
             </div>
           ) : (
@@ -198,4 +212,11 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(appStyle)(Dashboard);
+const mapStateToProps = state => ({
+  userType: get(state, 'user.type')
+})
+
+const mapDispatchToProps = dispatch => ({
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(appStyle)(Dashboard));
