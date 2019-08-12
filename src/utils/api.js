@@ -37,7 +37,18 @@ axios.interceptors.response.use((res) => {
   return res
 }, async (error) => {
   const status = get(error, ['response', 'status'], 0)
+  console.log(error.response.data)
+  const data = get(error, ['response', 'data', 'error'], {})
   switch(status) {
+    case 400:
+        Object.keys(data).forEach(field => {
+          console.log(field)
+          data[field].forEach(msg => {
+            console.log(msg)
+            toastr.warning(field + ": " + msg)
+          })
+        })
+      break
     case 401:
       toastr.error('您已经登出，刷新后请重新进行登录操作')
       break
@@ -63,8 +74,8 @@ export async function loginAPI(username, password) {
     return res.data;
 }
 
-export async function registerAPI(username, password, email) {
-  const res = await axios.post('api/user/', {username, password, email});
+export async function registerAPI(username, password, email, name) {
+  const res = await axios.post('api/user/', {username, password, email, name});
   if (!isNil(res.data.error)) {
     if (res.data.error.username) {
       toastr.warning(res.data.error.username);

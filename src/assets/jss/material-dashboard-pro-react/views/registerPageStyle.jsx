@@ -37,6 +37,10 @@ const registerPageStyle = {
   center: {
     textAlign: "center"
   },
+  button: {
+    textAlign: "center",
+    marginTop: "50px"
+  },
   right: {
     textAlign: "right"
   },

@@ -12,6 +12,7 @@ import Button from "components/CustomButtons/Button.jsx";
 import { updateProfileAPI, profileAPI } from "../../utils/api";
 import { isNil, get } from 'lodash';
 import { connect } from 'react-redux'
+import toastr from "toastr";
 
 const style = theme => ({
   infoText: {
@@ -114,6 +115,7 @@ class ProfileBasic extends React.Component {
       const {graduate, work} = this.state
       const id = this.props.id
       const res = await updateProfileAPI({graduate, work, id})
+      toastr.success("更新成功");
     }
   }
 

@@ -19,6 +19,7 @@ import { isNil, get } from 'lodash';
 import { connect } from 'react-redux'
 
 import Stackedit from 'stackedit-js';
+import toastr from "toastr";
 
 const style = theme => ({
   infoText: {
@@ -137,6 +138,7 @@ class ProfileBasic extends React.Component {
       const {name, type, sid, biography, level} = this.state
       const id = this.props.id
       const res = await updateProfileAPI({name, type, sid, biography, level, id})
+      toastr.success('更新成功')
     }
   }
 
@@ -240,11 +242,11 @@ class ProfileBasic extends React.Component {
         </GridItem>
         <GridItem xs={10} sm={10} md={10} lg={10}>
           <CustomInput
-            success={this.state.nameState === "success"}
-            error={this.state.nameState === "error"}
+            // success={this.state.nameState === "success"}
+            // error={this.state.nameState === "error"}
             labelText={
               <span>
-                真实姓名 <small>(必填)</small>
+                真实姓名
               </span>
             }
             id="name"
@@ -252,7 +254,8 @@ class ProfileBasic extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, 'name', 'length', 2),
+              disabled: true,
+              // onChange: event => this.change(event, 'name', 'length', 2),
               endAdornment: (
                 <InputAdornment
                   position="end"

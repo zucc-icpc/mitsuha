@@ -51,7 +51,7 @@ class SolutionDetail extends React.Component {
     this.setState({
       content: data["content"],
       title: data["title"],
-      owner: data["owner"]
+      name: data["name"]
     })
   }
 
@@ -60,7 +60,7 @@ class SolutionDetail extends React.Component {
     this.state = {
       content: "",
       title: "",
-      owner: "",
+      name: "",
       alert: null,
       id: this.props.match.params.id
     }
@@ -146,10 +146,10 @@ class SolutionDetail extends React.Component {
         <Heading
           textAlign="center"
           title={this.state.title}
-          category={`作者：${this.state.owner}`}
+          category={`作者：${this.state.name}`}
         />
         {
-          this.props.username === this.state.owner ? (
+          this.props.username === this.state.name ? (
             <div>
               <Button 
                 color="primary"

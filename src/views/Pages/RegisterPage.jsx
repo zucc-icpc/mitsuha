@@ -15,8 +15,8 @@ import Code from "@material-ui/icons/Code";
 import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
-import Check from "@material-ui/icons/Check";
+import Lock from "@material-ui/icons/Lock";
+import AccountBox from "@material-ui/icons/AccountBox";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -43,6 +43,7 @@ class RegisterPage extends React.Component {
       password: "",
       repeatedPassword: "",
       email: "",
+      name: "",
       isRegisterSuccess: false,
     };
     this.handleToggle = this.handleToggle.bind(this);
@@ -74,11 +75,12 @@ class RegisterPage extends React.Component {
   }
 
   validateForm = () => {
-    const {username, email, password, repeatedPassword} = this.state
+    const {username, email, password, repeatedPassword, name} = this.state
     if (this.isEmptyString(username) || 
         this.isEmptyString(email) || 
         this.isEmptyString(password) || 
-        this.isEmptyString(repeatedPassword)) {
+        this.isEmptyString(repeatedPassword) ||
+        this.isEmptyString(name)) {
       return false;
     }
     if (password !== repeatedPassword) {
@@ -89,8 +91,8 @@ class RegisterPage extends React.Component {
 
   handleSubmit = async () => {
     try {
-      const {username, password, email} = this.state
-      await registerAPI(username, password, email);
+      const {username, password, email, name} = this.state
+      await registerAPI(username, password, email, name);
       await login(this.state.username, this.state.password)
       this.setState({
         isRegisterSuccess: true
@@ -114,42 +116,8 @@ class RegisterPage extends React.Component {
               <h2 className={classes.cardTitle}>注册</h2>
               <CardBody>
                 <GridContainer justify="center">
-                  <GridItem xs={12} sm={12} md={5}>
-                    <InfoArea
-                      title="提升"
-                      description="分享你的题解、模版，同时提升你的编程水平"
-                      icon={Timeline}
-                      iconColor="rose"
-                    />
-                    {/* <InfoArea
-                      title="Fully Coded in HTML5"
-                      description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
-                      icon={Code}
-                      iconColor="primary"
-                    /> */}
-                    <InfoArea
-                      title="社区"
-                      description="在这里，你将认识更多志同道合优秀的编程爱好者"
-                      icon={Group}
-                      iconColor="info"
-                    />
-                  </GridItem>
+                 
                   <GridItem xs={12} sm={8} md={5}>
-                    {/* <div className={classes.center}>
-                      <Button justIcon round color="twitter">
-                        <i className="fab fa-twitter" />
-                      </Button>
-                      {` `}
-                      <Button justIcon round color="dribbble">
-                        <i className="fab fa-dribbble" />
-                      </Button>
-                      {` `}
-                      <Button justIcon round color="facebook">
-                        <i className="fab fa-facebook-f" />
-                      </Button>
-                      {` `}
-                      <h4 className={classes.socialTitle}>or be classical</h4>
-                    </div> */}
                     <form className={classes.form}>
                       <CustomInput
                         id="username"
@@ -163,7 +131,7 @@ class RegisterPage extends React.Component {
                               position="start"
                               className={classes.inputAdornment}
                             >
-                              <Face className={classes.inputAdornmentIcon} />
+                              <AccountBox className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
                           placeholder: "用户名...",
@@ -203,9 +171,7 @@ class RegisterPage extends React.Component {
                               position="start"
                               className={classes.inputAdornment}
                             >
-                              <Icon className={classes.inputAdornmentIcon}>
-                                lock_outline
-                              </Icon>
+                               <Lock className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
                           placeholder: "密码...",
@@ -226,9 +192,7 @@ class RegisterPage extends React.Component {
                               position="start"
                               className={classes.inputAdornment}
                             >
-                              <Icon className={classes.inputAdornmentIcon}>
-                                lock_outline
-                              </Icon>
+                              <Lock className={classes.inputAdornmentIcon} />
                             </InputAdornment>
                           ),
                           placeholder: "重复密码...",
@@ -237,38 +201,52 @@ class RegisterPage extends React.Component {
                           type: "password",
                         }}
                       />
-                      {/* <FormControlLabel
-                        classes={{
-                          root: classes.checkboxLabelControl,
-                          label: classes.checkboxLabel
+                      <CustomInput
+                        id="name"
+                        formControlProps={{
+                          fullWidth: true,
+                          className: classes.customFormControlClasses
                         }}
-                        control={
-                          <Checkbox
-                            tabIndex={-1}
-                            onClick={() => this.handleToggle(1)}
-                            checkedIcon={
-                              <Check className={classes.checkedIcon} />
-                            }
-                            icon={<Check className={classes.uncheckedIcon} />}
-                            classes={{
-                              checked: classes.checked,
-                              root: classes.checkRoot
-                            }}
-                          />
-                        }
-                        label={
-                          <span>
-                            I agree to the{" "}
-                            <a href="#pablo">terms and conditions</a>.
-                          </span>
-                        }
-                      /> */}
-                      <div className={classes.center}>
+                        inputProps={{
+                          startAdornment: (
+                            <InputAdornment
+                              position="start"
+                              className={classes.inputAdornment}
+                            >
+                              <Face className={classes.inputAdornmentIcon} />
+                            </InputAdornment>
+                          ),
+                          placeholder: "真实姓名",
+                          value: this.state.name,
+                          onChange: this.handleOnChange,
+                        }}
+                      />
+                    </form>
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={5}>
+                    <InfoArea
+                      title="提升"
+                      description="分享你的题解、模版，同时提升你的编程水平"
+                      icon={Timeline}
+                      iconColor="rose"
+                    />
+                    {/* <InfoArea
+                      title="Fully Coded in HTML5"
+                      description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
+                      icon={Code}
+                      iconColor="primary"
+                    /> */}
+                    <InfoArea
+                      title="社区"
+                      description="在这里，你将认识更多志同道合优秀的编程爱好者"
+                      icon={Group}
+                      iconColor="info"
+                    />
+                    <div className={classes.button}>
                         <Button round color="primary" disabled={!this.validateForm()} onClick={this.handleSubmit}>
                           Get started
                         </Button>
-                      </div>
-                    </form>
+                    </div>
                   </GridItem>
                 </GridContainer>
               </CardBody>

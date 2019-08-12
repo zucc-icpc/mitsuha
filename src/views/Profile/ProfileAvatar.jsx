@@ -15,6 +15,7 @@ import Slider from '@material-ui/lab/Slider';
 
 import { connect } from 'react-redux'
 import { updateUser } from "../../store/actions";
+import toastr from "toastr";
 
 const style = theme => ({
   infoText: {
@@ -81,6 +82,7 @@ class ProfileAvatar extends React.Component {
         await updateAvaterAPI(id, file)
         const data = await profileAPI(id)
         this.props.updataAvatar(data.avatar, data.avatar_thumb)
+        toastr.success("头像保存成功");
       })
     }
   }
@@ -141,8 +143,8 @@ class ProfileAvatar extends React.Component {
         </GridContainer>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={6} lg={4} className={classes.textAlignCenter}>
-            <Button onClick={this.handleUpload}>上传</Button>
-            <Button onClick={this.handleSubmit}>保存</Button>
+            <Button onClick={this.handleUpload}>选择图片</Button>
+            <Button onClick={this.handleSubmit}>保存头像</Button>
             <input className={classes.hideInput} type="file" onChange={this.handleImageChange} ref="fileInput" />
           </GridItem>
         </GridContainer>

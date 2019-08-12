@@ -99,7 +99,7 @@ class Solution extends React.Component {
                   },
                   {
                     Header: "作者",
-                    accessor: "owner"
+                    accessor: "name"
                   },
                   {
                     Header: "发布时间",
