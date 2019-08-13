@@ -54,6 +54,7 @@ class ProfileBasic extends React.Component {
       levelState: "",
       stackedit: new Stackedit(),
     };
+    this.state.stackedit.on('fileChange', (file) => this.handleFileChange(file));
   }
 
   handleOpenMarkdown = () => {
@@ -173,7 +174,6 @@ class ProfileBasic extends React.Component {
 
   render() {
     const { classes } = this.props;
-    this.state.stackedit.on('fileChange', (file) => this.handleFileChange(file));
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
