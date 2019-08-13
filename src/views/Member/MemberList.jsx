@@ -57,7 +57,7 @@ class MemberList extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const levels = Object.keys(this.state.data)
+    const levels = Object.keys(this.state.data).reverse()
     const data = this.state.data
     return (
       <div>
