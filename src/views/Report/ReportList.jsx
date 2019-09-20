@@ -19,6 +19,7 @@ import { reportListAPI, reportListByUserIdAPI } from "../../utils/api"
 import { withRouter } from "react-router-dom";
 import { isNil, get } from "lodash"
 import { connect } from 'react-redux'
+import { updateReports } from "../../store/actions";
 
 const styles = {
   cardIconTitle: {
@@ -33,17 +34,16 @@ class ReportList extends React.Component {
   fetchData = async (state, instance) => {
     this.setState({ loading: true })
     let res
+    const page = state.page + 1
+    console.log("page", page)
     if (this.props.userType === '教练') {
-      res = await reportListAPI(state.page + 1, state.filtered, state.sorted)
+      res = await reportListAPI(page, state.filtered, state.sorted)
     } else {
-      res = await reportListByUserIdAPI(state.page + 1, state.filtered, state.sorted, this.props.userId)
+      res = await reportListByUserIdAPI(page, state.filtered, state.sorted, this.props.userId)
     }
+    this.props.updateReports(res)
     const data = res.results
     const pages = Math.ceil(res.count / state.pageSize)
-    console.log(data, pages)
-    console.log(res)
-    console.log(state.filtered)
-    console.log(state.sorted)
     this.setState({
       data,
       pages,
@@ -91,6 +91,10 @@ class ReportList extends React.Component {
                     this.props.history.push(`/report/${rowInfo.original.id}/`)
                   }
                 })}
+                // onPageChange={page => {
+                //   this.props.updateReportsPage(page)
+                //   console.log("page chagne to", this.props.page)
+                // }}
                 columns={[
                   {
                     Header: "标题",
@@ -131,6 +135,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  updateReports: (payload) => dispatch(updateReports(payload)),
 })
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withStyles(styles)(ReportList)));

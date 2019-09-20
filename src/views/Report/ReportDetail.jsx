@@ -9,7 +9,7 @@ import Heading from "components/Heading/Heading.jsx";
 import Card from "components/Card/Card.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 
-import { reportDetailAPI, reportDeleteAPI } from "../../utils/api";
+import { reportDetailAPI, reportDeleteAPI, reportListByUrlAPI } from "../../utils/api";
 import ReactMarkdown from "react-markdown";
 import Button from "components/CustomButtons/Button.jsx";
 import { connect } from 'react-redux';
@@ -20,6 +20,11 @@ import { withRouter } from "react-router-dom";
 import SweetAlert from "react-bootstrap-sweetalert/lib/dist/SweetAlert";
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
+import { updateReports } from "../../store/actions";
+import { isNil } from "lodash";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import GridItem from "components/Grid/GridItem.jsx";
+
 const RemarkMathPlugin = require("remark-math");
 
 const style = {
@@ -47,14 +52,26 @@ const style = {
 class ReportDetail extends React.Component {
 
   componentDidMount = async () => {
-    const data = await reportDetailAPI(this.props.match.params.id);
+    const id = parseInt(this.props.match.params.id)
+    await this.getReportDetail(id)
+  }
+
+  getReportDetail = async (id) => {
+    const data = await reportDetailAPI(id);
     this.setState({
       content: data['content'],
       title: data['title'],
       created: data['created'],
-      owner: data['owner']
+      owner: data['owner'],
+      id
     //   name: data["name"]
     })
+  }
+
+  componentDidUpdate = async (prevProps, prevState, snapshot) => {
+    if (prevState.id !== this.state.id) {
+      await this.getReportDetail(this.state.id)
+    }
   }
 
   constructor(props) {
@@ -65,7 +82,6 @@ class ReportDetail extends React.Component {
       created: "",
     //   name: "",
       alert: null,
-      id: this.props.match.params.id
     }
   }
 
@@ -121,6 +137,83 @@ class ReportDetail extends React.Component {
         </SweetAlert>
       )
     });
+  }
+
+  checkNext = () => {
+    const id = this.state.id
+    const {results, next} = this.props.reports
+    const len = results.length
+    if (results[len-1].id === id && isNil(next)) {
+      return false
+    }
+    return true
+  }
+
+  checkPrevious = () => {
+    const id = this.state.id
+    const {results, previous} = this.props.reports
+    const len = results.length
+    if (results[0].id === id && isNil(previous)) {
+      return false
+    }
+    return true
+  }
+
+  findIdFromResults = (id, results) => {
+    let pos = -1
+    for (let i = 0; i < results.length; i ++) {
+      if (results[i].id === id) {
+        pos = i
+        break
+      }
+    }
+    return pos
+  }
+
+  getNext = async () => {
+    const id = this.state.id
+    const {results, next} = this.props.reports
+    const len = results.length
+    let pos = this.findIdFromResults(id, results)
+    if (pos == -1) {
+      console.log("id not found in redux when getNext")
+      return
+    }
+    let nextId
+    if (pos === len - 1) {
+      const reports = await reportListByUrlAPI(next)
+      nextId = reports.results[0].id
+      this.props.updateReports(reports)
+    } else {
+      nextId = results[pos+1].id
+    }
+    this.props.history.push(`/report/${nextId}`)
+    this.setState({
+      id: nextId
+    })
+  }
+
+  getPrevious = async() => {
+    const id = this.state.id
+    const {results, previous} = this.props.reports
+    const len = results.length
+    let pos = this.findIdFromResults(id, results)
+    if (pos == -1) {
+      console.log("id not found in redux when getPrevious")
+      return
+    }
+    let previousId
+    if (pos === 0) {
+      const reports = await reportListByUrlAPI(previous)
+      previousId = reports.results[reports.results.length-1].id
+      this.props.updateReports(reports)
+    } else {
+      previousId = results[pos-1].id
+    }
+    this.props.history.push(`/report/${previousId}`)
+    this.setState({
+      id: previousId
+    })
   }
 
   render() {
@@ -180,6 +273,19 @@ class ReportDetail extends React.Component {
             </div>
           </CardBody>
         </Card>
+        <GridContainer justify="center">
+          <GridItem>
+            <Button color="primary" onClick={this.getPrevious} disabled={!this.checkPrevious()}>
+              上一个
+            </Button>
+          </GridItem>
+          <GridItem>
+            <Button color="primary" onClick={this.getNext} disabled={!this.checkNext()}>
+              下一个
+            </Button>
+          </GridItem>
+        </GridContainer>
+         
         {/* <Disqus.DiscussionEmbed shortname={disqusShortname} config={disqusConfig} /> */}
       </div>
     );
@@ -193,9 +299,11 @@ ReportDetail.propTypes = {
 
 const mapStateToProps = state => ({
   username: get(state, 'user.username'),
+  reports: get(state, 'reports'),
 })
 
 const mapDispatchToProps = dispatch => ({
+  updateReports: (payload) => dispatch(updateReports(payload)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(style)(ReportDetail)));

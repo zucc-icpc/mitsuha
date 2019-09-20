@@ -296,6 +296,14 @@ export async function reportListAPI(page, filtered, sorted) {
   return ListWithPage(page, filtered, sorted, 'api/reports/')
 }
 
+export async function reportListByUrlAPI(url) {
+  if (isNil(url)) {
+    return null;
+  }
+  const res = await axios.get(url)
+  return res.data;
+}
+
 export async function reportCreateAPI(title, content) {
   const data = {
     title,
