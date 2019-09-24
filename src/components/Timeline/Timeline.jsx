@@ -9,9 +9,12 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Badge from "components/Badge/Badge.jsx";
 
 import timelineStyle from "assets/jss/material-dashboard-pro-react/components/timelineStyle.jsx";
+import { allSettled } from "q";
+import { withRouter } from "react-router-dom";
+
 
 function Timeline({ ...props }) {
-  const { classes, stories, simple } = props;
+  const { classes, stories, simple, history} = props;
   const timelineClass =
     classes.timeline +
     " " +
@@ -43,7 +46,9 @@ function Timeline({ ...props }) {
                 <prop.badgeIcon className={classes.badgeIcon} />
               </div>
             ) : null}
-            <div className={panelClasses}>
+            <div className={panelClasses} onClick={() => {
+              history.push(`/honor/${prop.id}/`);
+            }}>
               {prop.title ? (
                 <div className={classes.timelineHeading}>
                   <Badge color={prop.titleColor}>{prop.title}</Badge>
@@ -71,4 +76,4 @@ Timeline.propTypes = {
   simple: PropTypes.bool
 };
 
-export default withStyles(timelineStyle)(Timeline);
+export default withRouter(withStyles(timelineStyle)(Timeline));

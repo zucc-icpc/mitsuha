@@ -17,3 +17,9 @@ export const updateReports = payload => ({
   type: 'UPDATE_REPORTS',
   payload
 })
+
+
+export const updateHonors = payload => ({
+  type: 'UPDATE_HONORS',
+  payload
+})

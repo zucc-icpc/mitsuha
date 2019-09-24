@@ -13,8 +13,13 @@ import Grade from "@material-ui/icons/Grade";
 import Gavel from "@material-ui/icons/Gavel";
 import TurnedInNot from "@material-ui/icons/TurnedInNot";
 import { honorListAPI } from "../../utils/api";
+import { updateHonors } from "../../store/actions";
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { get } from 'lodash';
+import Button from "components/CustomButtons/Button.jsx";
 
-class Honor extends React.Component {
+class HonorList extends React.Component {
 
   constructor(props) {
     super(props);
@@ -52,23 +57,26 @@ class Honor extends React.Component {
   componentDidMount = async () => {
     const id = this.props.id
     const data = await honorListAPI()
-    const sortedData = data.sort((a, b) => {
-      if (a.time < b.time) {
-        return -1
-      }
-      if (a.time > b.time) {
-        return 1
-      }
-      return 0
-    })
-    const stories = sortedData.map((item, idx) => {
+    // const sortedData = data.sort((a, b) => {
+    //   if (a.time < b.time) {
+    //     return -1
+    //   }
+    //   if (a.time > b.time) {
+    //     return 1
+    //   }
+    //   return 0
+    // })
+    console.log('data', data)
+    this.props.updateHonors(data)
+    const stories = data.map((item, idx) => {
       const inverted = idx % 2 === 0
-      const { detail, type, time, } = item
+      const {id, intro, type, time, } = item
       const title = `${type}-${time}`
       const badgeIcon = this.getBadgeIcon(type)
       const badgeColor = this.getbadgeColor(type)
       const titleColor = this.getbadgeColor(type)
       return {
+        id,
         inverted,
         badgeColor,
         badgeIcon,
@@ -76,7 +84,7 @@ class Honor extends React.Component {
         titleColor,
         body: (
           <p>
-            {detail}
+            {intro}
           </p>
         )
       }
@@ -87,10 +95,26 @@ class Honor extends React.Component {
   }
 
   render() {
+    console.log(this.props.user.type)
+    console.log(this.props.user.isStaff)
+    console.log(this.props.user.type === '教练')
+    console.log(this.props.user.isStaff)
     return (
       <div>
         <Heading title="实验室的故事" textAlign="center" />
         <GridContainer>
+          {this.props.user.type === '教练' || this.props.user.isStaff === 'True' ? (
+            <GridItem>
+              <Button 
+                color="primary"
+                onClick={() => {
+                  this.props.history.push('/create-honor/')
+                }}
+              >
+                新建故事
+              </Button>
+            </GridItem>
+          ):null}
           <GridItem xs={12}>
             <Card plain>
               <CardBody plain>
@@ -104,4 +128,13 @@ class Honor extends React.Component {
   }
 }
 
-export default Honor;
+const mapDispatchToProps = dispatch => ({
+  updateHonors: (payload) => dispatch(updateHonors(payload)),
+})
+
+
+const mapStateToProps = state => ({
+  user: get(state, 'user'),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(HonorList));

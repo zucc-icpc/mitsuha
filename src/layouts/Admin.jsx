@@ -31,6 +31,9 @@ const AsyncSolutionEdit = asyncComponent(() => import("../views/Solution/Solutio
 const AsyncReportList = asyncComponent(() => import("../views/Report/ReportList"))
 const AsyncReportDetail = asyncComponent(() => import("../views/Report/ReportDetail"))
 const AsyncReportCreate = asyncComponent(() => import("../views/Report/ReportCreate"))
+const AsyncHonorDetail = asyncComponent(() => import("../views/Honor/HonorDetail"))
+const AsyncHonorCreate = asyncComponent(() => import("../views/Honor/HonorCreate"))
+const AsyncHonorEdit = asyncComponent(() => import("../views/Honor/HonorEdit"))
 
 var ps;
 
@@ -193,6 +196,9 @@ class Dashboard extends React.Component {
                 <Route exact path="/report/" component={AsyncReportList}></Route>
                 <Route exact path="/report/:id/" component={AsyncReportDetail}></Route>
                 <Route exact path="/create-report/" component={AsyncReportCreate}></Route>
+                <Route exact path="/honor/:id/" component={AsyncHonorDetail}></Route>
+                <Route exact path="/create-honor/" component={AsyncHonorCreate}></Route>
+                <Route exact path="/edit-honor/:id/" component={AsyncHonorEdit}></Route>
               </div>
             </div>
           ) : (

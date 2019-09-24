@@ -8,7 +8,7 @@ import Assignment from '@material-ui/icons/Assignment';
 const AsyncSolution = asyncComponent(() => import("./views/Solution/Solution.jsx"))
 const AsyncTemplateList = asyncComponent(() => import("./views/Template/TemplateList.jsx"))
 const AsyncMemberList = asyncComponent(() => import("./views/Member/MemberList.jsx"))
-const AsyncHonor = asyncComponent(() => import("./views/Honor/Honor.jsx"))
+const AsyncHonorList = asyncComponent(() => import("./views/Honor/HonorList.jsx"))
 const AsyncReportList = asyncComponent(() => import("./views/Report/ReportList"))
 // import Solution from "./views/Solution/Solution.jsx";
 // import TemplateList from "./views/Template/TemplateList.jsx";
@@ -45,7 +45,7 @@ var dashRoutes = [
     name: "故事",
     rtlName: "故事",
     icon: Book,
-    component: AsyncHonor,
+    component: AsyncHonorList,
     layout: ""
   },
   {

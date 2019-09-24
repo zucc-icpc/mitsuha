@@ -288,6 +288,38 @@ export async function honorListAPI() {
   return res.data;
 }
 
+export async function honorDetailAPI(id) {
+  const res = await axios.get(`api/honors/${id}/`)
+  if (res.status !== 200) {
+    throw new Error(`获取故事失败`);
+  }
+  return res.data;
+}
+
+export async function honorCreateAPI(payload) {
+  const res = await axios.post(`api/honors/`, payload)
+  if (res.status !== 201) {
+    throw new Error(`创建故事失败`);
+  }
+  return res.data;
+}
+
+export async function honorUpdateAPI(id, payload) {
+  const res = await axios.patch(`api/honors/${id}/`, payload)
+  if (res.status !== 200) {
+    throw new Error(`更新故事失败`);
+  }
+  return res.data;
+}
+
+export async function honorDeleteAPI(id) {
+  const res = await axios.delete(`api/honors/${id}/`)
+  if (res.status !== 204) {
+    throw new Error(`删除故事失败`);
+  }
+  return res.data;
+}
+
 export async function reportListByUserIdAPI(page, filtered, sorted, userId) {
   return ListWithPage(page, filtered, sorted, 'api/reports/', {owner: userId})
 }
