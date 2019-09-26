@@ -15,6 +15,7 @@ export const MarkdownRender = (props) => {
       ...props.renderers,
       math: (props) => <MathJax.Node>{props.source}</MathJax.Node>,
       inlineMath: (props) => <MathJax.Node inline>{props.source}</MathJax.Node>,
+      image: ({src, ...props}) => <img src={src} width="100%" {...props}/>,
     }
   };
   return (

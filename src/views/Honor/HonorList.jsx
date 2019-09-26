@@ -95,10 +95,6 @@ class HonorList extends React.Component {
   }
 
   render() {
-    console.log(this.props.user.type)
-    console.log(this.props.user.isStaff)
-    console.log(this.props.user.type === '教练')
-    console.log(this.props.user.isStaff)
     return (
       <div>
         <Heading title="实验室的故事" textAlign="center" />

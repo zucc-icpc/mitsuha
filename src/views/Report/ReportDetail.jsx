@@ -235,6 +235,7 @@ class ReportDetail extends React.Component {
       renderers: {
         math: (props) => <BlockMath>{props.value}</BlockMath>,
         inlineMath: (props) => <InlineMath>{props.value}</InlineMath>,
+        image: ({src, ...props}) => <img src={src} width="100%" {...props}/>,
       }
     };
     return (
