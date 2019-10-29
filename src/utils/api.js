@@ -261,6 +261,9 @@ export async function profileAPI(id) {
   if (res.status !== 200) {
     throw new Error(`获取用户名片失败`);
   }
+  if (!isNil(res.data['avatar_thumb'])) {
+    res.data['avatar_thumb'] = baseUrl + '/media/' + res.data['avatar_thumb'];
+  }
   return res.data;
 }
 
@@ -268,6 +271,13 @@ export async function memberListAPI(id) {
   const res = await axios.get(`api/profile/?type=队员`)
   if (res.status !== 200) {
     throw new Error(`获取队员失败`);
+  }
+  if (!isNil(res.data)) {
+    res.data.forEach(profile => {
+      if (!isNil(profile['avatar_thumb'])) {
+        profile['avatar_thumb'] = baseUrl + '/media/' + profile['avatar_thumb'];
+      }
+    })
   }
   return res.data;
 }
