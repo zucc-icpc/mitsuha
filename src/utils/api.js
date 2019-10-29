@@ -262,7 +262,7 @@ export async function profileAPI(id) {
     throw new Error(`获取用户名片失败`);
   }
   if (!isNil(res.data['avatar_thumb'])) {
-    res.data['avatar_thumb'] = baseUrl + '/media/' + res.data['avatar_thumb'];
+    res.data['avatar_thumb'] = baseUrl + res.data['avatar_thumb'];
   }
   return res.data;
 }
@@ -275,7 +275,7 @@ export async function memberListAPI(id) {
   if (!isNil(res.data)) {
     res.data.forEach(profile => {
       if (!isNil(profile['avatar_thumb'])) {
-        profile['avatar_thumb'] = baseUrl + '/media/' + profile['avatar_thumb'];
+        profile['avatar_thumb'] = baseUrl + profile['avatar_thumb'];
       }
     })
   }
